@@ -1,0 +1,14 @@
+What can we say about readability of this code? What are the skills required to write such a program
+Readability is horrible. Need to understand the concepts of pins, ports, boolean operators.
+
+Regarding the application domain, could you characterize the expressivity? The configurability of the code to change pins or behavior? Its debugging capabilities
+Expressivity : very low.
+Configurability : very high, but need a lot of technical work.
+Debugging : Complete control, so we must debug the whole system. It is not impossible because the project is small, but for bigger projects.
+
+Regarding the performance of the output code, what kind of parallelism is expressed by the use of the DDRx registers
+Parallelisme : sort of, because we write all 8 pins at once, we do not have to iterate over each pin individualy. But we can not read the reset button WHILE waiting, so the In/Out is parallel because we can read all pins in one instruction.
+
+What if we add additional tasks in the micro-controller code, with the same frequency? With a different frequency?
+
+With the same freq, easy because we already have a loop running at this frequency. But if we want to change the frequency, it gets hard. If we want to keep the iterative form, we have to take the PPCM of both frequencies and hard code when each instruction must be applied. It is ugly.
