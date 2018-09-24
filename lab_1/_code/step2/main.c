@@ -18,14 +18,30 @@ int e = 5;  //For displaying segment "e"
 int f = 6;  //For displaying segment "f"
 int g = 7;  //For displaying segment "g"
 
+// button
+int button = 10;
 
-void setup() {               
+// counter
+int count = 0;
+
+void setup() {
   //Setup for LED on pin 13
-  pinMode(led, OUTPUT);  
+  pinMode(led, OUTPUT);
   led_on=true;
   //do not forget to setup the 7 seg and the button
   pinMode(a, OUTPUT);  // A
+  pinMode(b, OUTPUT);  // B
+  pinMode(c, OUTPUT);  // C
+  pinMode(d, OUTPUT);  // D
+  pinMode(e, OUTPUT);  // E
+  pinMode(f, OUTPUT);  // F
+  pinMode(g, OUTPUT);  // G
+
+  // button
+  pinMode(button, INPUT);
+
   // and global state variables
+  count = 0;
 }
 
 void change_state_led(){
@@ -36,7 +52,7 @@ void change_state_led(){
   led_on = !led_on;
 }
 
-void turnOff() //turn off the 7seg (CC) 
+void turnOff() //turn off the 7seg (CC)
 {
   int i;
   for (i = a; i <= g; i++){ // this could be prettier
@@ -50,20 +66,36 @@ void displayDigit(int digit)
   turnOff();
   //Conditions for displaying segment a
   if(digit!=1 && digit != 4)
-    digitalWrite(a,LOW); // change into HIGH for common cathode
-  // TODO : complete
+    digitalWrite(a,LOW);
+  if(digit!=5 && digit != 6)
+    digitalWrite(b,LOW);
+  if(digit!=2)
+    digitalWrite(c,LOW);
+  if(digit!=1 && digit!= 4 && digit != 7 && digit != 9)
+    digitalWrite(d,LOW);
+  if(digit==0 || digit== 2 || digit == 6 || digit == 8)
+    digitalWrite(e,LOW);
+  if(digit!=1 && digit!= 2 && digit != 3 && digit != 7)
+    digitalWrite(f,LOW);
+  if(digit!=1 && digit!= 7 && digit != 0)
+    digitalWrite(g,LOW);
 }
 
 int main(void)
 {
   setup();
+  turnOff();
   while(1)
-    { 
-      // displayDigit(0); // uncomment to test
-      change_state_led();
-      digitalWrite(a,LOW);
+    {
+      displayDigit(count);
+      if (++count == 10)
+          count = 0;
       _delay_ms(1000);
-      
+      if (digitalRead(button) == HIGH){
+          count = 0;
+          change_state_led();
+      }
+
     }
   return 0;
 }

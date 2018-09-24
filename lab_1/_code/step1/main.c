@@ -36,7 +36,7 @@ void display_7seg(int value){
     PORTD = 0b01001001;
     break;
   case 3: //a,b,c,d,e,f should be OFF (common anode)
-    PORTD = 0b00001101;
+    PORTD = 0b01100001;
     break;
   case 4: //a,b,c,d,e,f should be OFF (common anode)
     PORTD = 0b01110011;
@@ -48,13 +48,13 @@ void display_7seg(int value){
     PORTD = 0b00000101;
     break;
   case 7: //a,b,c,d,e,f should be OFF (common anode)
-    PORTD = 0b10011101;
+    PORTD = 0b11110001;
     break;
   case 8: //a,b,c,d,e,f should be OFF (common anode)
     PORTD = 0b00000001;
     break;
   case 9: //a,b,c,d,e,f should be OFF (common anode)
-    PORTD = 0b00100001;
+    PORTD = 0b00110001;
     break;
   default:
     PORTD = 0b00000000;
