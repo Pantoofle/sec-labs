@@ -60,15 +60,28 @@ public class ToC extends Visitor<StringBuffer> {
 		for(Action action: state.getActions()) {
 			action.accept(this);
 		}
-		c("  _delay_ms(1000);");
-		c(String.format("  state_%s();", state.getNext().getName()));
+		c("  _delay_ms(200);");
+		for(Transition t : state.getTransitions()){
+    		c(String.format("  if(digitalRead(%s) == %s){", t.getReader().getPin(), t.getValue().name()));
+    		c(String.format("    state_%s();", t.getTarget().getName()));
+    		c("  }");
+		}
+		c(String.format("  state_%s();", state.getDefaultNext().getName()));
 		c("}");
 	}
 
 
 	@Override
 	public void visit(Action action) {
-		c(String.format("  digitalWrite(%d,%s);",action.getActuator().getPin(),action.getValue()));
+    	for(int i = 0; i < action.getActuators().size(); i = i+1){
+    		c(String.format("  digitalWrite(%d,%s);",action.getActuators().get(i).getPin(),
+    		                                         action.getValues().get(i)));
+    	}
+	}
+
+	@Override
+	public void visit(Reader reader) {
+		c(String.format("  %s = digitalRead(%d,%s);", reader.getVariable(), reader.getPin()));
 	}
 
 }
