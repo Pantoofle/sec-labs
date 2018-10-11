@@ -62,9 +62,15 @@ public class ToC extends Visitor<StringBuffer> {
 		}
 		c("  _delay_ms(200);");
 		for(Transition t : state.getTransitions()){
-    		c(String.format("  if(digitalRead(%s) == %s){", t.getReader().getPin(), t.getValue().name()));
+    		for(int i = 0; i < t.getReaders().size(); i = i+1){
+                Reader r = t.getReaders().get(i);
+                SIGNAL s = t.getValues().get(i);
+        		c(String.format("  if(digitalRead(%s) == %s){", r.getPin(), s.name()));
+            }
     		c(String.format("    state_%s();", t.getTarget().getName()));
-    		c("  }");
+    		for(Reader r : t.getReaders()){
+        		c("  }");
+    		}
 		}
 		c(String.format("  state_%s();", state.getDefaultNext().getName()));
 		c("}");

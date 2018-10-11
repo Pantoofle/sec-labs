@@ -45,14 +45,14 @@ public class Led extends App {
         Transition switchOn = new Transition();
         switchOn.setName("switch_on");
         switchOn.setTarget(on);
-        switchOn.setReader(button);
-        switchOn.setValue(SIGNAL.HIGH);
+        switchOn.setReaders(Arrays.asList(button));
+        switchOn.setValues(Arrays.asList(SIGNAL.HIGH));
 
         Transition switchOff = new Transition();
         switchOff.setName("switch_off");
         switchOff.setTarget(off);
-        switchOff.setReader(button);
-        switchOff.setValue(SIGNAL.HIGH);
+        switchOff.setReaders(Arrays.asList(button));
+        switchOff.setValues(Arrays.asList(SIGNAL.HIGH));
 
 		// Binding transitions to states
 		on.setDefaultNext(on);

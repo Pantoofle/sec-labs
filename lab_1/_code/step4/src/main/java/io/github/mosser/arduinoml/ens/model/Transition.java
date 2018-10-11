@@ -1,5 +1,8 @@
 package io.github.mosser.arduinoml.ens.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Transition implements NamedElement {
 
     private String name;
@@ -24,7 +27,7 @@ public class Transition implements NamedElement {
     }
 
     public List<Reader> getReaders(){
-        return reader;
+        return readers;
     }
 
     public void setReaders(List<Reader> readers){

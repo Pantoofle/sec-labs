@@ -2,9 +2,12 @@ package io.github.mosser.arduinoml.ens.model;
 
 import io.github.mosser.arduinoml.ens.generator.*;
 import io.github.mosser.arduinoml.ens.samples.*;
+import io.github.mosser.arduinoml.ens.model.*;
 
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -66,9 +69,7 @@ public class App implements NamedElement, Visitable {
 	}
 
 	public App multiply(App app){
-        List<State> states = new ArrayList<State>();
-        List<Actuator> actuators = new ArrayList<Actuator>();
-        List<Reader> readers = new ArrayList<Reader>();
+        HashMap<String, State> state_map = new HashMap<String, State>();
 
         // Generate all the cross states
         for(State s1 : this.states){
@@ -76,29 +77,39 @@ public class App implements NamedElement, Visitable {
                 // Create the merged state
                 State s12 = new State();
                 // The name
-                s12.setName(String.format("%s_%s", s1.getName(), s2.getName()));
+                String name = String.format("%s_%s", s1.getName(), s2.getName());
+                s12.setName(name);
                 // The actions
                 List<Action> actions = new ArrayList<Action>(s1.getActions());
                 actions.addAll(s2.getActions());
                 s12.setActions(actions);
+                state_map.put(name, s12);
+            }
+        }
 
+        // Now, generate all the transitions
+        for(State s1 : this.states){
+            for(State s2 : app.getStates()){
                 List<Transition> transitions = new ArrayList<Transition>();
+                String s12_name = String.format("%s_%s", s1.getName(), s2.getName());
+
                 // Cross transition : both conditions are valid
-                for(Transition t1 : s1.getTransistions()){
+                for(Transition t1 : s1.getTransitions()){
                     for(Transition t2 : s2.getTransitions()){
                         // Create the name
                         Transition t = new Transition();
                         t.setName(String.format("%s_%s", t1.getName(), t2.getName()));
-                        // Create the target
-                        State s = new State();
-                        s.setName(String.format("%s_%s", t1.getTarget().getName(), t2.getTarget().getName()));
+                        // Get the target
+                        String s_name = String.format("%s_%s", t1.getTarget().getName(),
+                                                      t2.getTarget().getName());
+                        State s = state_map.get(s_name);
                         t.setTarget(s);
                         // Create the readers
                         List<Reader> readers = new ArrayList<Reader>(t1.getReaders());
                         readers.addAll(t2.getReaders());
                         t.setReaders(readers);
                         // Create the signals
-                        List<Value> values = new ArrayList<Value>(t1.getValues());
+                        List<SIGNAL> values = new ArrayList<SIGNAL>(t1.getValues());
                         values.addAll(t2.getValues());
                         t.setValues(values);
                         transitions.add(t);
@@ -106,28 +117,69 @@ public class App implements NamedElement, Visitable {
                 }
 
                 // Transitions where only automata 1 changed
-                for(Transition t1 : s1.getTransistions()){
-
+                for(Transition t1 : s1.getTransitions()){
+                    Transition t = new Transition();
+                    t.setName(String.format("%s_%s", t1.getName(), s2.getName()));
+                    String s_name = String.format("%s_%s", t1.getTarget().getName(), s2.getName());
+                    State s = state_map.get(s_name);
+                    t.setTarget(s);
+                    // Create the readers
+                    t.setReaders(t1.getReaders());
+                    // Create the signals
+                    t.setValues(t1.getValues());
+                    transitions.add(t);
                 }
+                // Transitions where only automata 2 changed
+                for(Transition t2 : s2.getTransitions()){
+                    Transition t = new Transition();
+                    t.setName(String.format("%s_%s", s1.getName(), t2.getName()));
+                    String s_name = String.format("%s_%s", s1.getName(), t2.getTarget().getName());
+                    State s = state_map.get(s_name);
+                    t.setTarget(s);
+                    // Create the readers
+                    t.setReaders(t2.getReaders());
+                    // Create the signals
+                    t.setValues(t2.getValues());
+                    transitions.add(t);
+                }
+
+                // Default transition
+                State me = state_map.get(s12_name);
+                State next_1 = s1.getDefaultNext();
+                State next_2 = s2.getDefaultNext();
+                String next_name = String.format("%s_%s", next_1.getName(), next_2.getName());
+                State next = state_map.get(next_name);
+                me.setDefaultNext(next);
+
             }
         }
 
-        // The transitions
-        for(State s1 : this.states){
-            for(State s2 : app.getStates()){
-                                for(Transition t1 : s1.getTransistions()){
-            }
-        }
+        List<State> states = new ArrayList<State>(state_map.values());
+
+        List<Actuator> actuators = new ArrayList<Actuator>(this.getActuators());
+        actuators.addAll(app.getActuators());
+
+        List<Reader> readers = new ArrayList<Reader>(this.getReaders());
+        readers.addAll(app.getReaders());
+
+        App res = new App();
+        res.setBricks(actuators);
+        res.setReaders(readers);
+        res.setStates(states);
+
+        return res;
 	}
 
     public static void main(String[] args) {
         Led led = new Led();
         led.build();
-
+        Screen screen = new Screen();
+        screen.build();
+        App app = led.multiply(screen);
 
 		// Generating Code
 		Visitor codeGenerator = new ToC();
-		led.accept(codeGenerator);
+		app.accept(codeGenerator);
 
 		// Writing C files
         try {
