@@ -1,0 +1,3 @@
+1. Readibility : Helps a lot. We now have one function by state, way easier to see what is happening. The content of the functions is still plain hard C, close to the hardware, but the global state machine is more visible
+2. Manualy code all states : if you add a functionnality, you have to code all states linked to it. It takes time. Invasive changes lead to major changes.
+3. Different frequences lead to a LOT of transitionnal states : you have to take the GCD of the frequences, and hard code a state for each. This is very time consuming.

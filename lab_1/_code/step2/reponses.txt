@@ -1,0 +1,5 @@
+1. Readibility : A bit, it is more clear when not using a byte array. Still hard to visualize simply
+2. Parallelism : same as step1
+3. Public : Programmers discovering the arduino, testing the posisbilities, hard coding small projects.
+4. Not very extensible : hard to add new functions, must hard code all features.
+5. Price for the dev : full control, close to the mother board, but technical to modelize complex operations

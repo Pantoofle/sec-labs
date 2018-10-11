@@ -1,0 +1,18 @@
+1. Pros/Cons : once the "compiler" is coded, it is way easier to modelize the
+state machine and to use it. But it has two MAJOR problems : first, writing the
+compiler is a pain in the ass, the multiplication of apps is not funny at all
+to code. second, the debug step is very hard because you must determine if the
+error comes from the Java code, or the generated C code. And it is hard to link
+an error in the C code to the part of Java code that generated it.
+
+2. For user, it is way easier. The state machine is way more visible, we use
+Java Objects that modelize the state machine in a simple way.
+For large apps, it is way better than previous steps because all steps can be
+generated proceduraly : the multiply operation allows to code the state machine
+for the led, the state machine for the display, and generate automaticaly the
+state machine handling both. So in order to make bigger applications, if you
+split it cleanly in multiple submachines, it will be much easier
+
+5. For verification, it is easier because you can prove the compiler, and check
+the state machine.  It is easier to prove the compiler once, and then prove
+each model than to prove thousands lines of C code handling byte arrays.
