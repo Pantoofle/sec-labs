@@ -42,5 +42,7 @@ public class Transition implements NamedElement {
         this.values = values;
     }
 
+    // TODO
+    public void addCondition(Reader reader, SIGNAL value){}
 }
 

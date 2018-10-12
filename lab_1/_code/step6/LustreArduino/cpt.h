@@ -20,8 +20,9 @@ typedef float _float;
 #define _true 1
 #endif
 /*--------- Pragmas ----------------*/
-//MODULE: cpt 1 1
+//MODULE: cpt 1 2
 //IN: _boolean reset
+//OUT: _integer counter
 //OUT: _boolean led_on
 #ifndef _cpt_EC2C_SRC_FILE
 /*--------Context type -------------*/
