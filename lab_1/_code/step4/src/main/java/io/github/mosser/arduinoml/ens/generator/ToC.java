@@ -60,7 +60,7 @@ public class ToC extends Visitor<StringBuffer> {
 		for(Action action: state.getActions()) {
 			action.accept(this);
 		}
-		c("  _delay_ms(200);");
+		c("  _delay_ms(500);");
 		for(Transition t : state.getTransitions()){
     		for(int i = 0; i < t.getReaders().size(); i = i+1){
                 Reader r = t.getReaders().get(i);

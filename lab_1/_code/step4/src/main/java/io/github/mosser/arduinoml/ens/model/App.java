@@ -90,8 +90,8 @@ public class App implements NamedElement, Visitable {
         // Now, generate all the transitions
         for(State s1 : this.states){
             for(State s2 : app.getStates()){
-                List<Transition> transitions = new ArrayList<Transition>();
                 String s12_name = String.format("%s_%s", s1.getName(), s2.getName());
+                State s12 = state_map.get(s12_name);
 
                 // Cross transition : both conditions are valid
                 for(Transition t1 : s1.getTransitions()){
@@ -112,7 +112,7 @@ public class App implements NamedElement, Visitable {
                         List<SIGNAL> values = new ArrayList<SIGNAL>(t1.getValues());
                         values.addAll(t2.getValues());
                         t.setValues(values);
-                        transitions.add(t);
+                        s12.addTransition(t);
                     }
                 }
 
@@ -127,7 +127,7 @@ public class App implements NamedElement, Visitable {
                     t.setReaders(t1.getReaders());
                     // Create the signals
                     t.setValues(t1.getValues());
-                    transitions.add(t);
+                    s12.addTransition(t);
                 }
                 // Transitions where only automata 2 changed
                 for(Transition t2 : s2.getTransitions()){
@@ -140,7 +140,7 @@ public class App implements NamedElement, Visitable {
                     t.setReaders(t2.getReaders());
                     // Create the signals
                     t.setValues(t2.getValues());
-                    transitions.add(t);
+                    s12.addTransition(t);
                 }
 
                 // Default transition
@@ -162,10 +162,16 @@ public class App implements NamedElement, Visitable {
         List<Reader> readers = new ArrayList<Reader>(this.getReaders());
         readers.addAll(app.getReaders());
 
+        State init1 = this.getInitial();
+        State init2 = app.getInitial();
+        String init_name = String.format("%s_%s", init1.getName(), init2.getName());
+        State init = state_map.get(init_name);
+
         App res = new App();
         res.setBricks(actuators);
         res.setReaders(readers);
         res.setStates(states);
+        res.setInitial(init);
 
         return res;
 	}
