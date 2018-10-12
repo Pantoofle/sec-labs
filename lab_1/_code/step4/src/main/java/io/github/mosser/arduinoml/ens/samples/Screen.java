@@ -98,28 +98,28 @@ public class Screen extends App {
                                        SIGNAL.LOW,
                                        SIGNAL.LOW,
                                        SIGNAL.LOW,
-                                       SIGNAL.LOW
+                                       SIGNAL.HIGH
                                       ));
 
         Action screen1 = new Action();
         screen1.setActuators(segments);
-        screen1.setValues(Arrays.asList(SIGNAL.LOW,
+        screen1.setValues(Arrays.asList(SIGNAL.HIGH,
                                        SIGNAL.LOW,
                                        SIGNAL.LOW,
-                                       SIGNAL.LOW,
-                                       SIGNAL.LOW,
-                                       SIGNAL.LOW,
-                                       SIGNAL.LOW
+                                       SIGNAL.HIGH,
+                                       SIGNAL.HIGH,
+                                       SIGNAL.HIGH,
+                                       SIGNAL.HIGH
                                       ));
 
         Action screen2 = new Action();
         screen2.setActuators(segments);
         screen2.setValues(Arrays.asList(SIGNAL.LOW,
                                        SIGNAL.LOW,
+                                       SIGNAL.HIGH,
                                        SIGNAL.LOW,
                                        SIGNAL.LOW,
-                                       SIGNAL.LOW,
-                                       SIGNAL.LOW,
+                                       SIGNAL.HIGH,
                                        SIGNAL.LOW
                                       ));
 
@@ -129,19 +129,19 @@ public class Screen extends App {
                                        SIGNAL.LOW,
                                        SIGNAL.LOW,
                                        SIGNAL.LOW,
-                                       SIGNAL.LOW,
-                                       SIGNAL.LOW,
+                                       SIGNAL.HIGH,
+                                       SIGNAL.HIGH,
                                        SIGNAL.LOW
                                       ));
 
         Action screen4 = new Action();
         screen4.setActuators(segments);
         screen4.setValues(Arrays.asList());
-        screen4.setValues(Arrays.asList(SIGNAL.LOW,
+        screen4.setValues(Arrays.asList(SIGNAL.HIGH,
                                        SIGNAL.LOW,
                                        SIGNAL.LOW,
-                                       SIGNAL.LOW,
-                                       SIGNAL.LOW,
+                                       SIGNAL.HIGH,
+                                       SIGNAL.HIGH,
                                        SIGNAL.LOW,
                                        SIGNAL.LOW
                                       ));
@@ -150,10 +150,10 @@ public class Screen extends App {
         screen5.setActuators(segments);
         screen5.setValues(Arrays.asList());
         screen5.setValues(Arrays.asList(SIGNAL.LOW,
+                                       SIGNAL.HIGH,
                                        SIGNAL.LOW,
                                        SIGNAL.LOW,
-                                       SIGNAL.LOW,
-                                       SIGNAL.LOW,
+                                       SIGNAL.HIGH,
                                        SIGNAL.LOW,
                                        SIGNAL.LOW
                                       ));
@@ -162,7 +162,7 @@ public class Screen extends App {
         screen6.setActuators(segments);
         screen6.setValues(Arrays.asList());
         screen6.setValues(Arrays.asList(SIGNAL.LOW,
-                                       SIGNAL.LOW,
+                                       SIGNAL.HIGH,
                                        SIGNAL.LOW,
                                        SIGNAL.LOW,
                                        SIGNAL.LOW,
@@ -176,10 +176,10 @@ public class Screen extends App {
         screen7.setValues(Arrays.asList(SIGNAL.LOW,
                                        SIGNAL.LOW,
                                        SIGNAL.LOW,
-                                       SIGNAL.LOW,
-                                       SIGNAL.LOW,
-                                       SIGNAL.LOW,
-                                       SIGNAL.LOW
+                                       SIGNAL.HIGH,
+                                       SIGNAL.HIGH,
+                                       SIGNAL.HIGH,
+                                       SIGNAL.HIGH
                                       ));
 
         Action screen8 = new Action();
@@ -201,7 +201,7 @@ public class Screen extends App {
                                        SIGNAL.LOW,
                                        SIGNAL.LOW,
                                        SIGNAL.LOW,
-                                       SIGNAL.LOW,
+                                       SIGNAL.HIGH,
                                        SIGNAL.LOW,
                                        SIGNAL.LOW
                                       ));
