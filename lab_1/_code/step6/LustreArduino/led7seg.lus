@@ -1,4 +1,15 @@
-node cpt(reset: bool)  returns (led_on: bool) ;
+node led(reset: bool)  returns (led_on: bool) ;
 let
-   led_on = false -> not(pre(led_on));
+   led_on = false -> if reset then not(pre(led_on)) else pre(led_on);
+tel
+
+node counter(reset: bool) returns (counter: int) ;
+let
+    counter = 0 -> if reset then 0 else pre(counter)+1;
+tel
+
+node cpt(reset: bool) returns(counter: int; led_on: bool) ;
+let
+    led_on = led(reset);
+    counter = counter(reset);
 tel

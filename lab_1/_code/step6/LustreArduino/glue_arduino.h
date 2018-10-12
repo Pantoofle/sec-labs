@@ -1,4 +1,4 @@
-//counts, resets when button is pressed 
+//counts, resets when button is pressed
 //led on and off every two cycles.
 #ifndef _GLUE_ARDUINO
 #define _GLUE_ARDUINO
@@ -14,5 +14,6 @@ extern int button_state ;
 
 void setup();
 void turnOff(); // Not Yet Implemented
+void turnOn(); // Not Yet Implemented
 void displayDigit(int digit); // Not Yet Implemented
 #endif

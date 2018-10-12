@@ -6,7 +6,7 @@ export TARGET_ARCH = -mmcu=$(MCU)
 
 TARGET = led7seg
 
-LUSTRE_SRC = $(TARGET).lus 
+LUSTRE_SRC = $(TARGET).lus
 LUSTRE_MAINNODE = cpt
 C_SRC = $(wildcard *.c)
 OBJS = $(LUSTRE_MAINNODE).o $(C_SRC:.c=.o)
@@ -24,7 +24,7 @@ STTY_OPT = -f
 AVRDUDE_PATH = /opt/local/bin/
 AVRDUDECONF_PATH = /opt/local/etc/
 else # only linux is supported, haven't checked for varieties here
-ARDUINO_HW_ROOT = /usr/share/arduino/hardware/arduino/
+ARDUINO_HW_ROOT = /usr/share/arduino/hardware/archlinux-arduino/avr
 TERM = /dev/ttyACM0
 STTY_OPT = -F
 AVRDUDE_PATH = /usr/bin/
@@ -71,7 +71,7 @@ upload: $(TARGET).hex
 	stty $(STTY_OPT) $(TERM) hupcl # reset
 	$(DUDE) $(PGMERISP) -U flash:w:$(TARGET).hex
 
-size: $(TARGET).elf 
+size: $(TARGET).elf
 	avr-size --format=avr --mcu=$(MCU) $(TARGET).elf
 
 

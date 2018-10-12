@@ -120,7 +120,9 @@ public class App implements NamedElement, Visitable {
                 for(Transition t1 : s1.getTransitions()){
                     Transition t = new Transition();
                     t.setName(String.format("%s_%s", t1.getName(), s2.getName()));
-                    String s_name = String.format("%s_%s", t1.getTarget().getName(), s2.getName());
+                    String s_name = String.format("%s_%s",
+                                                  t1.getTarget().getName(),
+                                                  s2.getDefaultNext().getName());
                     State s = state_map.get(s_name);
                     t.setTarget(s);
                     // Create the readers
@@ -133,7 +135,9 @@ public class App implements NamedElement, Visitable {
                 for(Transition t2 : s2.getTransitions()){
                     Transition t = new Transition();
                     t.setName(String.format("%s_%s", s1.getName(), t2.getName()));
-                    String s_name = String.format("%s_%s", s1.getName(), t2.getTarget().getName());
+                    String s_name = String.format("%s_%s",
+                                                  s1.getDefaultNext().getName(),
+                                                  t2.getTarget().getName());
                     State s = state_map.get(s_name);
                     t.setTarget(s);
                     // Create the readers
