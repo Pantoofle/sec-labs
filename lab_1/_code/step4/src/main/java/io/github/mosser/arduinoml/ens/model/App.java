@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
+import java.util.Map.Entry;
+
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -104,14 +106,12 @@ public class App implements NamedElement, Visitable {
                                                       t2.getTarget().getName());
                         State s = state_map.get(s_name);
                         t.setTarget(s);
-                        // Create the readers
-                        List<Reader> readers = new ArrayList<Reader>(t1.getReaders());
-                        readers.addAll(t2.getReaders());
-                        t.setReaders(readers);
-                        // Create the signals
-                        List<SIGNAL> values = new ArrayList<SIGNAL>(t1.getValues());
-                        values.addAll(t2.getValues());
-                        t.setValues(values);
+                        // Create the conditions
+                        List<Entry<Reader, SIGNAL>> conditions =
+                            new ArrayList<Entry<Reader, SIGNAL>>(t1.getConditions());
+                        conditions.addAll(t2.getConditions());
+                        t.setConditions(conditions);
+
                         s12.addTransition(t);
                     }
                 }
@@ -125,10 +125,8 @@ public class App implements NamedElement, Visitable {
                                                   s2.getDefaultNext().getName());
                     State s = state_map.get(s_name);
                     t.setTarget(s);
-                    // Create the readers
-                    t.setReaders(t1.getReaders());
-                    // Create the signals
-                    t.setValues(t1.getValues());
+                    // Create the conditions
+                    t.setConditions(t1.getConditions());
                     s12.addTransition(t);
                 }
                 // Transitions where only automata 2 changed
@@ -140,10 +138,7 @@ public class App implements NamedElement, Visitable {
                                                   t2.getTarget().getName());
                     State s = state_map.get(s_name);
                     t.setTarget(s);
-                    // Create the readers
-                    t.setReaders(t2.getReaders());
-                    // Create the signals
-                    t.setValues(t2.getValues());
+                    t.setConditions(t2.getConditions());
                     s12.addTransition(t);
                 }
 

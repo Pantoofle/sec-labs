@@ -3,12 +3,14 @@ package io.github.mosser.arduinoml.ens.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.Map.Entry;
+import java.util.AbstractMap.SimpleEntry;
+
 public class Transition implements NamedElement {
 
     private String name;
     private State target;
-    private List<Reader> readers = new ArrayList<Reader>();
-    private List<SIGNAL> values = new ArrayList<SIGNAL>();
+    private List<Entry<Reader, SIGNAL>> conditions = new ArrayList<Entry<Reader, SIGNAL>>();
 
     @Override public String getName() {
         return name;
@@ -26,23 +28,17 @@ public class Transition implements NamedElement {
         this.target = target;
     }
 
-    public List<Reader> getReaders(){
-        return readers;
+    public void addCondition(Reader reader, SIGNAL signal){
+       Entry<Reader, SIGNAL> cond = new SimpleEntry<Reader, SIGNAL>(reader, signal);
+       conditions.add(cond);
     }
 
-    public void setReaders(List<Reader> readers){
-        this.readers = readers;
+    public void setConditions(List<Entry<Reader, SIGNAL>> conditions){
+        this.conditions = conditions;
     }
 
-    public List<SIGNAL> getValues(){
-        return values;
+    public List<Entry<Reader, SIGNAL>> getConditions(){
+        return conditions;
     }
-
-    public void setValues(List<SIGNAL> values){
-        this.values = values;
-    }
-
-    // TODO
-    public void addCondition(Reader reader, SIGNAL value){}
 }
 
