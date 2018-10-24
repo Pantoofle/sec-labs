@@ -12,7 +12,11 @@ public class ConceptPresentationAspectImpl extends ConceptPresentationAspectBase
   private ConceptPresentation props_Action;
   private ConceptPresentation props_Actuator;
   private ConceptPresentation props_App;
+  private ConceptPresentation props_ComplexAction;
+  private ConceptPresentation props_Condition;
+  private ConceptPresentation props_Reader;
   private ConceptPresentation props_State;
+  private ConceptPresentation props_Transition;
 
   @Override
   @Nullable
@@ -40,6 +44,27 @@ public class ConceptPresentationAspectImpl extends ConceptPresentationAspectBase
           props_App = cpb.create();
         }
         return props_App;
+      case LanguageConceptSwitch.ComplexAction:
+        if (props_ComplexAction == null) {
+          ConceptPresentationBuilder cpb = new ConceptPresentationBuilder();
+          cpb.presentationByName();
+          props_ComplexAction = cpb.create();
+        }
+        return props_ComplexAction;
+      case LanguageConceptSwitch.Condition:
+        if (props_Condition == null) {
+          ConceptPresentationBuilder cpb = new ConceptPresentationBuilder();
+          cpb.presentationByName();
+          props_Condition = cpb.create();
+        }
+        return props_Condition;
+      case LanguageConceptSwitch.Reader:
+        if (props_Reader == null) {
+          ConceptPresentationBuilder cpb = new ConceptPresentationBuilder();
+          cpb.presentationByName();
+          props_Reader = cpb.create();
+        }
+        return props_Reader;
       case LanguageConceptSwitch.State:
         if (props_State == null) {
           ConceptPresentationBuilder cpb = new ConceptPresentationBuilder();
@@ -47,6 +72,13 @@ public class ConceptPresentationAspectImpl extends ConceptPresentationAspectBase
           props_State = cpb.create();
         }
         return props_State;
+      case LanguageConceptSwitch.Transition:
+        if (props_Transition == null) {
+          ConceptPresentationBuilder cpb = new ConceptPresentationBuilder();
+          cpb.presentationByName();
+          props_Transition = cpb.create();
+        }
+        return props_Transition;
     }
     return null;
   }

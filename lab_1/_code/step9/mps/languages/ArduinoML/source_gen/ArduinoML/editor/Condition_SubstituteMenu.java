@@ -21,13 +21,13 @@ import org.jetbrains.mps.openapi.language.SAbstractConcept;
 import jetbrains.mps.lang.editor.menus.substitute.DefaultSubstituteMenuLookup;
 import jetbrains.mps.smodel.language.LanguageRegistry;
 
-public class Action_SubstituteMenu extends SubstituteMenuBase {
+public class Condition_SubstituteMenu extends SubstituteMenuBase {
   @NotNull
   @Override
   protected List<MenuPart<SubstituteMenuItem, SubstituteMenuContext>> getParts(final SubstituteMenuContext _context) {
     List<MenuPart<SubstituteMenuItem, SubstituteMenuContext>> result = new ArrayList<MenuPart<SubstituteMenuItem, SubstituteMenuContext>>();
-    result.add(new ConstraintsFilteringSubstituteMenuPartDecorator(new Action_SubstituteMenu.SMP_ReferenceScope_g3c1ep_a(), MetaAdapterFactory.getConcept(0x6d84bad7eb044249L, 0x8d80c9157947c3f2L, 0x1ee64324e96f0fc7L, "ArduinoML.structure.Action")));
-    result.add(new Action_SubstituteMenu.SMP_Subconcepts_g3c1ep_b());
+    result.add(new ConstraintsFilteringSubstituteMenuPartDecorator(new Condition_SubstituteMenu.SMP_ReferenceScope_ivmgla_a(), MetaAdapterFactory.getConcept(0x6d84bad7eb044249L, 0x8d80c9157947c3f2L, 0x558f584187c478ebL, "ArduinoML.structure.Condition")));
+    result.add(new Condition_SubstituteMenu.SMP_Subconcepts_ivmgla_b());
     return result;
   }
 
@@ -35,7 +35,7 @@ public class Action_SubstituteMenu extends SubstituteMenuBase {
   @Override
   public List<SubstituteMenuItem> createMenuItems(@NotNull SubstituteMenuContext context) {
     context.getEditorMenuTrace().pushTraceInfo();
-    context.getEditorMenuTrace().setDescriptor(new EditorMenuDescriptorBase("default substitute menu for Action. Generated from implicit smart reference attribute.", new SNodePointer("r:95dc3936-047b-4df0-883d-ba757a2402dd(ArduinoML.structure)", "2226540891595542471")));
+    context.getEditorMenuTrace().setDescriptor(new EditorMenuDescriptorBase("default substitute menu for Condition. Generated from implicit smart reference attribute.", new SNodePointer("r:95dc3936-047b-4df0-883d-ba757a2402dd(ArduinoML.structure)", "6165243453367417067")));
     try {
       return super.createMenuItems(context);
     } finally {
@@ -44,10 +44,10 @@ public class Action_SubstituteMenu extends SubstituteMenuBase {
   }
 
 
-  public class SMP_ReferenceScope_g3c1ep_a extends ReferenceScopeSubstituteMenuPart {
+  public class SMP_ReferenceScope_ivmgla_a extends ReferenceScopeSubstituteMenuPart {
 
-    public SMP_ReferenceScope_g3c1ep_a() {
-      super(MetaAdapterFactory.getConcept(0x6d84bad7eb044249L, 0x8d80c9157947c3f2L, 0x1ee64324e96f0fc7L, "ArduinoML.structure.Action"), MetaAdapterFactory.getReferenceLink(0x6d84bad7eb044249L, 0x8d80c9157947c3f2L, 0x1ee64324e96f0fc7L, 0x1ee64324e96f0fe2L, "target"));
+    public SMP_ReferenceScope_ivmgla_a() {
+      super(MetaAdapterFactory.getConcept(0x6d84bad7eb044249L, 0x8d80c9157947c3f2L, 0x558f584187c478ebL, "ArduinoML.structure.Condition"), MetaAdapterFactory.getReferenceLink(0x6d84bad7eb044249L, 0x8d80c9157947c3f2L, 0x558f584187c478ebL, 0x558f584187c4ef55L, "reader"));
     }
     @NotNull
     @Override
@@ -62,15 +62,15 @@ public class Action_SubstituteMenu extends SubstituteMenuBase {
     }
 
   }
-  public class SMP_Subconcepts_g3c1ep_b extends ConceptMenusPart<SubstituteMenuItem, SubstituteMenuContext> {
+  public class SMP_Subconcepts_ivmgla_b extends ConceptMenusPart<SubstituteMenuItem, SubstituteMenuContext> {
     protected Collection getConcepts(final SubstituteMenuContext _context) {
-      return ConceptDescendantsCache.getInstance().getDirectDescendants(MetaAdapterFactory.getConcept(0x6d84bad7eb044249L, 0x8d80c9157947c3f2L, 0x1ee64324e96f0fc7L, "ArduinoML.structure.Action"));
+      return ConceptDescendantsCache.getInstance().getDirectDescendants(MetaAdapterFactory.getConcept(0x6d84bad7eb044249L, 0x8d80c9157947c3f2L, 0x558f584187c478ebL, "ArduinoML.structure.Condition"));
     }
     @NotNull
     @Override
     public List<SubstituteMenuItem> createItems(SubstituteMenuContext context) {
       context.getEditorMenuTrace().pushTraceInfo();
-      context.getEditorMenuTrace().setDescriptor(new EditorMenuDescriptorBase("include menus for all the direct subconcepts of " + "Action", null));
+      context.getEditorMenuTrace().setDescriptor(new EditorMenuDescriptorBase("include menus for all the direct subconcepts of " + "Condition", null));
       try {
         return super.createItems(context);
       } finally {
