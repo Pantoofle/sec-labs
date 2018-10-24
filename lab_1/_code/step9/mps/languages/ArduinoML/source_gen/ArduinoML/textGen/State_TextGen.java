@@ -32,9 +32,29 @@ public class State_TextGen extends TextGenDescriptorBase {
       }
     });
 
+    ListSequence.fromList(SLinkOperations.getChildren(SLinkOperations.getTarget(ctx.getPrimaryInput(), MetaAdapterFactory.getReferenceLink(0x6d84bad7eb044249L, 0x8d80c9157947c3f2L, 0x1ee64324e96f0fc4L, 0x558f584187e15226L, "complex_action")), MetaAdapterFactory.getContainmentLink(0x6d84bad7eb044249L, 0x8d80c9157947c3f2L, 0x558f584187db5d45L, 0x558f584187db5d48L, "actions"))).visitAll(new IVisitor<SNode>() {
+      public void visit(SNode it) {
+        tgs.indent();
+        tgs.appendNode(it);
+        tgs.newLine();
+      }
+    });
+
     tgs.indent();
     tgs.append("_delay_ms(1000);");
     tgs.newLine();
+
+    tgs.indent();
+    ListSequence.fromList(SLinkOperations.getChildren(ctx.getPrimaryInput(), MetaAdapterFactory.getContainmentLink(0x6d84bad7eb044249L, 0x8d80c9157947c3f2L, 0x1ee64324e96f0fc4L, 0x558f584187edaabaL, "transitions"))).visitAll(new IVisitor<SNode>() {
+      public void visit(SNode it) {
+        tgs.indent();
+        tgs.appendNode(it);
+        tgs.newLine();
+      }
+    });
+
+    tgs.indent();
+    tgs.appendNode(SLinkOperations.getTarget(ctx.getPrimaryInput(), MetaAdapterFactory.getReferenceLink(0x6d84bad7eb044249L, 0x8d80c9157947c3f2L, 0x1ee64324e96f0fc4L, 0x558f584187f19defL, "named_transition")));
 
     tgs.indent();
     tgs.append("state_");

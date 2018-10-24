@@ -41,7 +41,7 @@ public class App_TextGen extends TextGenDescriptorBase {
       }
     });
     tgs.newLine();
-    tgs.append("// Declaring available actuators ");
+    tgs.append("// Declaring available actuators and readers ");
     tgs.newLine();
     {
       Iterable<SNode> collection = SLinkOperations.getChildren(ctx.getPrimaryInput(), MetaAdapterFactory.getContainmentLink(0x6d84bad7eb044249L, 0x8d80c9157947c3f2L, 0x1ee64324e96f0fc1L, 0x1ee64324e96f0fd4L, "actuators"));
@@ -53,6 +53,18 @@ public class App_TextGen extends TextGenDescriptorBase {
         }
       }
     }
+    tgs.newLine();
+    {
+      Iterable<SNode> collection = SLinkOperations.getChildren(ctx.getPrimaryInput(), MetaAdapterFactory.getContainmentLink(0x6d84bad7eb044249L, 0x8d80c9157947c3f2L, 0x1ee64324e96f0fc1L, 0x558f584187c4ef85L, "readers"));
+      final SNode lastItem = Sequence.fromIterable(collection).last();
+      for (SNode item : collection) {
+        tgs.appendNode(item);
+        if (item != lastItem) {
+          tgs.append("\n");
+        }
+      }
+    }
+    tgs.newLine();
     tgs.newLine();
     tgs.newLine();
     tgs.append("// Declaring states");
@@ -81,6 +93,15 @@ public class App_TextGen extends TextGenDescriptorBase {
         tgs.append(SPropertyOperations.getString(it, MetaAdapterFactory.getProperty(0xceab519525ea4f22L, 0x9b92103b95ca8c0cL, 0x110396eaaa4L, 0x110396ec041L, "name")));
         tgs.append(", ");
         tgs.append("OUTPUT);");
+        tgs.newLine();
+      }
+    });
+    ListSequence.fromList(SLinkOperations.getChildren(ctx.getPrimaryInput(), MetaAdapterFactory.getContainmentLink(0x6d84bad7eb044249L, 0x8d80c9157947c3f2L, 0x1ee64324e96f0fc1L, 0x558f584187c4ef85L, "readers"))).visitAll(new IVisitor<SNode>() {
+      public void visit(SNode it) {
+        tgs.indent();
+        tgs.append("pinMode(");
+        tgs.append(SPropertyOperations.getString(it, MetaAdapterFactory.getProperty(0xceab519525ea4f22L, 0x9b92103b95ca8c0cL, 0x110396eaaa4L, 0x110396ec041L, "name")));
+        tgs.append(", INPUT);");
         tgs.newLine();
       }
     });
