@@ -228,8 +228,7 @@ public class Screen extends App {
         Transition reset = new Transition();
         reset.setName("reset");
         reset.setTarget(disp_0);
-        reset.setReaders(Arrays.asList(button));
-        reset.setValues(Arrays.asList(SIGNAL.HIGH));
+        reset.addCondition(button, SIGNAL.HIGH);
 
         // Bind the transitions
         disp_0.setDefaultNext(disp_1);

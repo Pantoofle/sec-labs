@@ -7,6 +7,7 @@ public class Reader implements NamedElement, Visitable {
 
     private int pin;
     private String name;
+    private String variable;
 
     @Override public String getName() {
         return name;
@@ -26,6 +27,14 @@ public class Reader implements NamedElement, Visitable {
 
     public void setPin(int pin) {
         this.pin = pin;
+    }
+
+    public void setVariable(String var){
+        this.variable = variable;
+    }
+
+    public String getVariable(){
+        return variable;
     }
 
 }

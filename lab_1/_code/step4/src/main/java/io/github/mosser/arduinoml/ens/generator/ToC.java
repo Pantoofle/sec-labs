@@ -1,6 +1,7 @@
 package io.github.mosser.arduinoml.ens.generator;
 
 import io.github.mosser.arduinoml.ens.model.*;
+import java.util.Map.Entry;
 
 public class ToC extends Visitor<StringBuffer> {
 
@@ -62,13 +63,13 @@ public class ToC extends Visitor<StringBuffer> {
 		}
 		c("  _delay_ms(500);");
 		for(Transition t : state.getTransitions()){
-    		for(int i = 0; i < t.getReaders().size(); i = i+1){
-                Reader r = t.getReaders().get(i);
-                SIGNAL s = t.getValues().get(i);
+    		for(Entry<Reader, SIGNAL> entry : t.getConditions()){
+                Reader r = entry.getKey();
+                SIGNAL s = entry.getValue();
         		c(String.format("  if(digitalRead(%s) == %s){", r.getPin(), s.name()));
             }
     		c(String.format("    state_%s();", t.getTarget().getName()));
-    		for(Reader r : t.getReaders()){
+    		for(Entry<Reader, SIGNAL> e : t.getConditions()){
         		c("  }");
     		}
 		}
