@@ -7,17 +7,13 @@ int led_on = 1; // led state
 int button = 10; //button
 int button_state= 0;
 // The 7 segment states
-int a = 0;
-int b = 0;
-int c = 0;
-int d = 0;
-int e = 0;
-int f = 0;
-int g = 0;
-
-int counter = 0; // The digit displayed
-
-// TODO : add some more global variables
+int a = 1;
+int b = 2;
+int c = 3;
+int d = 4;
+int e = 5;
+int f = 6;
+int g = 7;
 
 void setup() {
   //Setup for LED on pin
@@ -33,8 +29,6 @@ void setup() {
   pinMode(e, OUTPUT);
   pinMode(f, OUTPUT);
   pinMode(g, OUTPUT);
-
-  counter = 0;
 
   // Setup button
   pinMode(button, INPUT);
