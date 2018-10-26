@@ -1,0 +1,8 @@
+1. Domain matching : exactly the same as step 4 : only added the multiplication
+Expressiveness : Same
+Scalability : WAY easier : just code some small state machines, and multiply them
+
+2. Cost of a new feature : code the feature with a state machine, and multiply
+to the previous model
+
+3. Scalability of the model paradygme : way harder to change how the model works because you must write all the model objetcs, rewrite the Java-C compiler, etc...
