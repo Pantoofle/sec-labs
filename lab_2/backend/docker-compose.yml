@@ -18,6 +18,6 @@ grafana:
   environment:
     - GF_INSTALL_PLUGINS=grafana-clock-panel,briangann-gauge-panel,natel-plotly-panel,grafana-simple-json-datasource
   volumes:
-    - ./grafana-data:/var/lib/grafana
+    - grafana-storage:/var/lib/grafana
   links:
     - influxdb
