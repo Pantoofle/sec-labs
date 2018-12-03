@@ -1,0 +1,2 @@
+model : model.uml
+	plantuml $<
