@@ -22,3 +22,6 @@ class Data():
 
     def shiftTime(self, delta):
         return Data(self.timestamp + delta, self.sensor, _data=self.data)
+
+    def __str__(self):
+        return "timestamp="+str(self.timestamp)+"sensor_name="+str(self.sensor)+"values="+str(self.data)

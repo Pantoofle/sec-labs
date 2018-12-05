@@ -5,8 +5,8 @@ from Sensor import Sensor
 class AggregatedSensor(Sensor):
     """This class deals with many sensors. It contains a list of the sensors controlled."""
 
-    def __init__(self, speed = 1, sensors):
-        Sensor.__init__(self, speed)
+    def __init__(self, speed = 1, name = None, sensors = []):
+        Sensor.__init__(self, speed, name)
         self.sensors = sensors
         self.next_value_sensors  = []
         self.current_time = 0
