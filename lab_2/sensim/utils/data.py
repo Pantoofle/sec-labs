@@ -3,8 +3,8 @@ class Data:
     this data in the Simulation, or plot it in a Display"""
 
     def __init__(self, timestamp, **kwargs):
-        self.timestamp = timestamp
         self.data = dict()
+        self.data[timestamp] = timestamp
         for key, value in kwargs.iteritems():
             self.data[key] = value
 
