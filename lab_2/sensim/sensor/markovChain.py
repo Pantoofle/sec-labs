@@ -2,7 +2,7 @@
 
 from generator import Generator
 from random import random
-from ../utils/data import Data #this line will fail
+from ..utils.data import Data
 
 class MarkovChain(Generator):
     """Mimics the comportment of a sensor using the model of a markov chain"""
@@ -33,7 +33,7 @@ class MarkovChain(Generator):
             r = random()
             index = 0
             while index != len(self.nodes)-1 and r > self.transition[self.current_node][index]:
-                r -= self.transition[self.current_node][index]:
+                r -= self.transition[self.current_node][index]
             self.next = index
         return self._returnIfNotFinished(Data(self.current_time, self.name, _data={"node":self.next}))
 

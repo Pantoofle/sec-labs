@@ -1,4 +1,4 @@
-from Markov_chain import MarkovChain
+from sensor.markovChain import MarkovChain
 
 m = MarkovChain(name = "zombieSensor", end = 20)
 m.addNodes("alive", "dead", "zombie")
