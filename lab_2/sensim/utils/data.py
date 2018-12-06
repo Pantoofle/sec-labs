@@ -2,9 +2,10 @@ class Data():
     """Defines a point of data. Has all the information needed to plot and use
     this data in the Simulation, or plot it in a Display"""
 
-    def __init__(self, timestamp, sensor, _data=None, **kwargs):
+    def __init__(self, timestamp, sensor, value, _data=None, **kwargs):
         self.timestamp = timestamp
         self.sensor = sensor
+        self.value = value
 
         if _data is not None:
             self.data = dict(_data)
@@ -18,10 +19,10 @@ class Data():
         self.data[key] = value
 
     def scaleTime(self, factor):
-        return Data(self.timestamp * factor, self.sensor, _data=self.data)
+        return Data(self.timestamp * factor, self.sensor, self.value, _data=self.data)
 
     def shiftTime(self, delta):
-        return Data(self.timestamp + delta, self.sensor, _data=self.data)
+        return Data(self.timestamp + delta, self.sensor, self.value, _data=self.data)
 
     def __str__(self):
-        return "timestamp="+str(self.timestamp)+"sensor_name="+str(self.sensor)+"values="+str(self.data)
+        return "timestamp="+str(self.timestamp)+"sensor_name="+str(self.sensor)+"value="+str(self.value)+"data="+str(self.data)
