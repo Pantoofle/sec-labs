@@ -12,11 +12,13 @@ class InfluxDBDisplay(Display):
         timestamp = data.timestamp
         value = data.value
 
-        data = str(sensor)
-        for key, val in data._data.iteritems():
-            data += " %s=%s".format(key, val)
+        fields = str(sensor)
+        fields += " value={}".format(str(value))
+        for key, val in data.data.items():
+            print("Adding field :" + str(key) + "  " + str(val))
+            fields += " {}={}".format(key, val)
 
-        data += " %s".format(timestamp)
-
-        return requests.post(url=self.url, data=data)
+        fields += " {}".format(timestamp)
+        print("Sending : " + fields)
+        return requests.post(url=self.url, data=fields)
 
