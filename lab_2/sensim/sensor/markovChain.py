@@ -24,21 +24,26 @@ class MarkovChain(Generator):
         self.transition[i_node1][i_node2] = proba
 
     def setStartNode(self, node):
-        self.current_node = node
-        if self.current_node not in self.nodes:
+        if node not in self.nodes:
             raise ValueError("The node you set is not in the markov chain")
+        else:
+            self.current_node = self.nodes.index(node)
 
     def _getNext(self):
         if self.next == None:
             r = random()
             index = 0
+            print(self.current_node, index)
             while index != len(self.nodes)-1 and r > self.transition[self.current_node][index]:
                 r -= self.transition[self.current_node][index]
+                index += 1
+                print(self.current_node, index)
             self.next = index
         return self._returnIfNotFinished(Data(self.current_time, self.name, _data={"node":self.next}))
 
     def _popNext(self):
-        return_val = self._returnIfNotFinished(Data(self.current_time, self.name, _data={"node":self.next}))
+        return_val = self._getNext()
         self._advanceTime()
+        self.current_node = self.next
         self._getNext()
         return return_val
