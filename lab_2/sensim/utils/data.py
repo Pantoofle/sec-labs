@@ -25,4 +25,4 @@ class Data():
         return Data(self.timestamp + delta, self.sensor, self.value, _data=self.data)
 
     def __str__(self):
-        return "timestamp="+str(self.timestamp)+"sensor_name="+str(self.sensor)+"value="+str(self.value)+"data="+str(self.data)
+        return "timestamp="+str(self.timestamp)+" ; sensor_name="+str(self.sensor)+" ; value="+str(self.value)+" ; data="+str(self.data)
