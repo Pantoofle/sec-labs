@@ -1,4 +1,4 @@
-from ..utils.data import Data
+from utils.data import Data
 
 
 class Display:
