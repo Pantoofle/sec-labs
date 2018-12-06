@@ -1,6 +1,6 @@
 """The class of the Aggregated sensors. It aggregate some sensors, and will generate datas for each sensor depending on the next data that should be generated"""
 
-from sensor.sensor import Sensor
+from .sensor import Sensor
 
 class AggregatedSensor(Sensor):
     """This class deals with many sensors. It contains a list of the sensors controlled."""

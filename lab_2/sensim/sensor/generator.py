@@ -1,6 +1,6 @@
 """The superclass of all the classes that will generate data (for example MarkovChain or Polynomial)"""
 
-from sensor.sensor import Sensor
+from .sensor import Sensor
 
 class Generator(Sensor):
     """The superclass of all the classes that will generate data"""
