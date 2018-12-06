@@ -12,7 +12,7 @@ class MarkovChain(Generator):
         self.nodes = []
         self.transition = []
         self.current_node = 0
-        self.next = None
+        self.next = self.current_node
 
     def addNodes(self, *args):
         self.nodes += args
@@ -28,16 +28,15 @@ class MarkovChain(Generator):
             raise ValueError("The node you set is not in the markov chain")
         else:
             self.current_node = self.nodes.index(node)
+            self.next = self.current_node
 
     def _getNext(self):
         if self.next == None:
             r = random()
             index = 0
-            print(self.current_node, index)
             while index != len(self.nodes)-1 and r > self.transition[self.current_node][index]:
                 r -= self.transition[self.current_node][index]
                 index += 1
-                print(self.current_node, index)
             self.next = index
         return self._returnIfNotFinished(Data(self.current_time, self.name, _data={"node":self.next}))
 
@@ -45,5 +44,6 @@ class MarkovChain(Generator):
         return_val = self._getNext()
         self._advanceTime()
         self.current_node = self.next
+        self.next = None
         self._getNext()
         return return_val
