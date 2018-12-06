@@ -38,7 +38,7 @@ class MarkovChain(Generator):
                 r -= self.transition[self.current_node][index]
                 index += 1
             self.next = index
-        return self._returnIfNotFinished(Data(self.current_time, self.name, _data={"node":self.next}))
+        return self._returnIfNotFinished(Data(self.current_time, self.name, _data={"node":self.nodes[self.next]}))
 
     def _popNext(self):
         return_val = self._getNext()
