@@ -1,6 +1,6 @@
 """The class of the Aggregated sensors. It aggregate some sensors, and will generate datas for each sensor depending on the next data that should be generated"""
 
-from sensor import Sensor
+from sensor.sensor import Sensor
 
 class AggregatedSensor(Sensor):
     """This class deals with many sensors. It contains a list of the sensors controlled."""
@@ -35,9 +35,9 @@ class AggregatedSensor(Sensor):
 
     def _getNext(self):
         """returns the next data that should be generated"""
-        
+
         return self.next_value_sensors[self._getNextIndex()].scaleTime(1/self.time)
-    
+
     def _popNext(self):
         """Will effectively advance the time"""
 
@@ -60,4 +60,4 @@ class AggregatedSensor(Sensor):
 
 
 
-    
+

@@ -1,8 +1,8 @@
 """The sensor mimicing the behaviour of a markov chain"""
 
-from generator import Generator
+from sensor.generator import Generator
 from random import random
-from ..utils.data import Data
+from utils.data import Data
 
 class MarkovChain(Generator):
     """Mimics the comportment of a sensor using the model of a markov chain"""
@@ -27,7 +27,7 @@ class MarkovChain(Generator):
         self.current_node = node
         if self.current_node not in self.nodes:
             raise ValueError("The node you set is not in the markov chain")
-        
+
     def _getNext(self):
         if self.next == None:
             r = random()
