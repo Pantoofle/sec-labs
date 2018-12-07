@@ -9,7 +9,7 @@ class InfluxDBDisplay(Display):
 
     def addPlot(self, data):
         sensor = data.sensor
-        timestamp = data.timestamp
+        timestamp = int(data.timestamp)
         value = data.value
 
         fields = str(sensor)
