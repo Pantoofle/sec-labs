@@ -26,7 +26,7 @@ class AggregatedSensor(Sensor):
             current_sensor = self.sensors[i]
             current_data = self.next_value_sensors[i]
             if current_data == None:
-                current_data = current_sensor._get_next()
+                current_data = current_sensor._getNext()
                 self.next_value_sensors[i] = current_data
             if best_data == None or best_data.timestamp > current_data.timestamp:
                 best_data = current_data
@@ -42,7 +42,7 @@ class AggregatedSensor(Sensor):
         """Will effectively advance the time"""
 
         next_sensor = self._getNextIndex()
-        return self.sensors[i]._popNext().scaleTime(1/self.speed)
+        return self.sensors[next_sensor]._popNext().scaleTime(1/self.speed)
 
 
 

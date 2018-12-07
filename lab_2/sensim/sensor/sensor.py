@@ -7,7 +7,7 @@ class Sensor():
 
     def __init__(self, speed = 1, name=None):
         if name == None:
-            name = "Sensor_%d"%(nb_defined)
+            name = "Sensor_%d"%(Sensor.nb_defined)
         Sensor.nb_defined += 1
         self.name = name
         self.speed = speed

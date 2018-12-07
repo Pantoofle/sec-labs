@@ -46,4 +46,4 @@ class MarkovChain(Generator):
         self.current_node = self.next
         self.next = None
         self._getNext()
-        return return_val
+        return return_val.scaleTime(1/self.speed)
