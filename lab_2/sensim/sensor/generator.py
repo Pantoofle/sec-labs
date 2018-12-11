@@ -1,6 +1,17 @@
 """The superclass of all the classes that will generate data (for example MarkovChain or Polynomial)"""
 
 from .sensor import Sensor
+import functools
+
+
+def temporalCondition(func):
+    @functools.wraps(func)
+    def wrapper(self):
+        if self.current_time > self.end:
+            return None
+        else:
+            return func(self)
+    return wrapper
 
 class Generator(Sensor):
     """The superclass of all the classes that will generate data"""
@@ -22,9 +33,4 @@ class Generator(Sensor):
 
     def _advanceTime(self):
         self.current_time += self.period
-
-    def _returnIfNotFinished(self, value):
-        if self.current_time <= self.end:
-            return value
-        #else return None
 

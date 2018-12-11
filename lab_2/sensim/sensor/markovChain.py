@@ -1,6 +1,6 @@
 """The sensor mimicing the behaviour of a markov chain"""
 
-from sensor.generator import Generator
+from sensor.generator import Generator, temporalCondition
 from random import random
 from utils.data import Data
 
@@ -30,6 +30,7 @@ class MarkovChain(Generator):
             self.current_node = self.nodes.index(node)
             self.next = self.current_node
 
+    @temporalCondition
     def _getNext(self):
         if self.next == None:
             r = random()
@@ -38,8 +39,9 @@ class MarkovChain(Generator):
                 r -= self.transition[self.current_node][index]
                 index += 1
             self.next = index
-        return self._returnIfNotFinished(Data(self.current_time, self.name, self.next))
+        return Data(self.current_time, self.name, self.next)
 
+    @temporalCondition
     def _popNext(self):
         return_val = self._getNext()
         self._advanceTime()
