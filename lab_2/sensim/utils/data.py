@@ -26,3 +26,10 @@ class Data():
 
     def __str__(self):
         return "timestamp="+str(self.timestamp)+" ; sensor_name="+str(self.sensor)+" ; value="+str(self.value)+" ; data="+str(self.data)
+
+    def to_dict(self):
+        return_val = {}
+        return_val["t"] = self.timestamp
+        return_val["v"] = self.value
+        return_val["s"] = self.sensor
+        return return_val

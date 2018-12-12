@@ -40,13 +40,20 @@ class AggregatedSensor(Sensor):
     def _getNext(self):
         """returns the next data that should be generated"""
 
-        return self.next_value_sensors[self._getNextIndex()].scaleTime(1/self.time)
+        index = self._getNextIndex()
+        if index == -1:
+            return None
+        else:
+            return self.next_value_sensors[index].scaleTime(1/self.time)
 
     def _popNext(self):
         """Will effectively advance the time"""
 
         next_sensor = self._getNextIndex()
-        return self.sensors[next_sensor]._popNext().scaleTime(1/self.speed)
+        if next_sensor == -1:
+            return None
+        else:
+            return self.sensors[next_sensor]._popNext().scaleTime(1/self.speed)
 
 
 

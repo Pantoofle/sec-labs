@@ -4,7 +4,10 @@ from .display import Display
 
 
 class InfluxDBDisplay(Display):
+    """ A class that will push data in an influxDB database """
+    
     def __init__(self, url):
+        Display.__init__(self)
         self.url = url
 
     def addPlot(self, data):
