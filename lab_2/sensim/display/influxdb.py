@@ -21,4 +21,3 @@ class InfluxDBDisplay(Display):
         fields += " {}".format(timestamp)
         print("Sending : " + fields)
         return requests.post(url=self.url, data=fields)
-

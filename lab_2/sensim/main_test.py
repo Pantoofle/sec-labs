@@ -28,4 +28,4 @@ for i in range(30):
     point = point.shiftTime(now)
     point = point.scaleTime(1000000000)
     print(point)
-    print(display.addPlot(point))
+    print(type(idisplay.addPlot(point)))

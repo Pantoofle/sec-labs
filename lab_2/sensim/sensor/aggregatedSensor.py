@@ -15,7 +15,11 @@ class AggregatedSensor(Sensor):
         self.sensors += args
         self.next_value_sensors += [None]*len(args)
 
-    #TODO Optimize that, currently we reload all the next at each time
+    def _setup(self):
+        for s in self.sensors:
+            s._setup()
+
+    #TODO Optimize that, currently we reload all the next at each time, hard to do better...
     def _getNextIndex(self):
         """We ask each sensor for the next data that they want to give, update the value in the list next_value_sensors, and return the index of the next data generated"""
 

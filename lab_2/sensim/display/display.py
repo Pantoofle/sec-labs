@@ -11,3 +11,7 @@ class Display:
         # If we land here, it is because the daughter class did not implement
         # the function
         raise NotImplementedError()
+
+    def _end(self):
+        """ A function that will be called at the end of the push of the data"""
+        pass
