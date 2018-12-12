@@ -1,6 +1,7 @@
 """ A class that will import data stored in JSON files """
 
 from sensor.importer import *
+from utils.data import *
 import json
 import functools
 
@@ -28,4 +29,24 @@ class JsonImporter(Importer):
         self.current_index = 0
         
     @jsonImporterTemporalCondition
-    def 
+    def _getNext(self):
+        return Data(self.data[self.current_index]["t"], self.name, self.data[self.current_index]["v"])
+
+    @jsonImporterTemporalCondition
+    def _popNext(self):
+        return_val = Data(self.data[self.current_index]["t"], self.name, self.data[self.current_index]["v"])
+        self.current_index += 1
+        return return_val
+
+
+
+
+
+
+
+
+
+
+
+
+    
