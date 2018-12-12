@@ -28,11 +28,9 @@ class AggregatedSensor(Sensor):
         self.next_value_sensors = [None]*len(self.sensors)
         for i in range(len(self.next_value_sensors)):
             current_sensor = self.sensors[i]
-            current_data = self.next_value_sensors[i]
-            if current_data == None:
-                current_data = current_sensor._getNext()
-                self.next_value_sensors[i] = current_data
-            if best_data == None or best_data.timestamp > current_data.timestamp:
+            current_data = current_sensor._getNext()
+            self.next_value_sensors[i] = current_data
+            if current_data != None and (best_data == None or best_data.timestamp > current_data.timestamp):
                 best_data = current_data
                 best_data_index = i
         return best_data_index

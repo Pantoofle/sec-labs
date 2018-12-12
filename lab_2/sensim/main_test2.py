@@ -8,7 +8,7 @@ import time
 # Define Chain
 m = JsonImporter("bike_file_speed.raw", name = "test")
 
-display = JsonDisplay("test")
+display = JsonDisplay("test.raw")
 
 simu = Simulation(display = display, sensors = [m])
 

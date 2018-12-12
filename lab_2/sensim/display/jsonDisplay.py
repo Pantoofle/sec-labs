@@ -17,12 +17,12 @@ class JsonDisplay(Display):
     def addPlot(self, data):
         self._data_received.append(data.to_dict())
 
-    def _end(self, database_name, base_time):
+    def _end(self, database_name, base_time, time_unit):
         output = {}
         output["bn"] = database_name
         output["bt"] = base_time
         output["time_unit"] = time_unit
-        output["e"] = self.data_received
+        output["e"] = self._data_received
         with open(self.filename, "w") as opened_file:
             opened_file.write(json.dumps(output))
         
