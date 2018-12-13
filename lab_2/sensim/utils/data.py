@@ -31,5 +31,5 @@ class Data():
         return_val = {}
         return_val["t"] = self.timestamp
         return_val["v"] = self.value
-        return_val["s"] = self.sensor
+        return_val["n"] = self.sensor
         return return_val
