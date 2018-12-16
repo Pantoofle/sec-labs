@@ -13,7 +13,7 @@ def temporalCondition(func):
             return func(self)
     return wrapper
 
-class Generator(Sensor):
+class ModelSensor(Sensor):
     """The superclass of all the classes that will generate data"""
 
     def __init__(self, speed = 1, name=None, start = 0, end = 10, period = 1):

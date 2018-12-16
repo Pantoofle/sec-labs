@@ -42,7 +42,7 @@ class AggregatedSensor(Sensor):
         if index == -1:
             return None
         else:
-            return self.next_value_sensors[index].scaleTime(1/self.time)
+            return self.next_value_sensors[index].scaleTime(1/self.speed)
 
     def _popNext(self):
         """Will effectively advance the time"""

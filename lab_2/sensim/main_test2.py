@@ -3,8 +3,6 @@ from sensor import JsonImporter
 from display import JsonDisplay
 from utils import Simulation
 
-import time
-
 # Define Chain
 m = JsonImporter("bike_file_speed.raw", name = "test")
 

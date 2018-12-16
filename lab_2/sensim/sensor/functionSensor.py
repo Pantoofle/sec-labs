@@ -1,13 +1,13 @@
 """The sensor generates data according to a given function"""
 
-from sensor.generator import Generator, temporalCondition
+from sensor.modelSensor import ModelSensor, temporalCondition
 from utils.data import Data
 
-class FunctionSensor(Generator):
+class FunctionSensor(ModelSensor):
     """Generates data according to a function given by the user"""
 
     def __init__(self, speed = 1, name = None, start = 0, end = 10, period = 1, function = None):
-        Generator.__init__(self, speed, name, start, end, period)
+        ModelSensor.__init__(self, speed, name, start, end, period)
         self.function = function
         self.next = None
 

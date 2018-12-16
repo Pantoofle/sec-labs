@@ -1,6 +1,6 @@
 from sensor import *
 
-class Generato:
+class Generator:
     def __init__():
         return
 
