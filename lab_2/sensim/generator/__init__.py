@@ -1,3 +1,3 @@
 from .generator import *
 from .multipleSensor import *
-# from .interpolator import *
+from .interpolator import *

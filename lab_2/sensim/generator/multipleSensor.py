@@ -1,7 +1,7 @@
 from copy import deepcopy
 
-from generator import *
-from sensor import *
+from generator import Generator
+from sensor import AggregatedSensor
 
 
 class MultipleSensor(Generator):
