@@ -48,16 +48,23 @@ class Sensor():
 
     def turnedOffAt(self, time):
         from sensor import MaskedSensor
-        return MaskedSensor(name=self.name+"_masked", stop=time)
+        return MaskedSensor(name=self.name+"_masked", stop=time, sensor=self)
 
     def turnedOnAt(self, time):
         from sensor import MaskedSensor
-        return MaskedSensor(name=self.name+"_masked", start=time)
+        return MaskedSensor(name=self.name+"_masked", start=time, sensor=self)
 
     def turnedOnBetweenTime(self, start, stop):
         from sensor import MaskedSensor
-        return MaskedSensor(name=self.name+"_masked", stop=stop, start=start)
+        return MaskedSensor(name=self.name+"_masked", stop=stop, start=start, sensor=self)
 
+    def __deepcopy__(self, memo):
+        cls = self.__class__
+        result = cls.__new__(cls)
+        memo[id(self)] = result
+        for k, v in self.__dict__.items():
+            setattr(result, k, deepcopy(v, memo))
+        return result
 
     def _getNext(self):
         """This method should be redefined by subclasses"""

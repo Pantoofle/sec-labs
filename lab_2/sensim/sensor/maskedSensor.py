@@ -10,13 +10,16 @@ class MaskedSensor(Sensor):
         self.start = start
         self.stop = stop
 
+    def __getattr__(self, name):
+        return getattr(self.sensor, name)
+
     def turnOffAt(self, time):
         self.stop = time
 
     def turnOnAt(self, time):
         self.start = time
 
-    def turnedOnBetweenTime(self, start, stop):
+    def turnOnBetweenTime(self, start, stop):
         self.start = start
         self.stop = stop
 
