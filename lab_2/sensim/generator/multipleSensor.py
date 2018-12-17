@@ -17,7 +17,7 @@ class MultipleSensor(Generator):
         self.modelSensor = sensor
 
     def clear(self):
-        self.__init__()
+        self.__init__(name=self.name)
 
     def build(self):
         if self.nb is None or self.modelSensor is None:

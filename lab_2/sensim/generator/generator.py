@@ -1,8 +1,8 @@
 from sensor import *
 
 class Generator:
-    def __init__():
-        return
+    def __init__(self, name=None):
+        self.name = name
 
     def build():
         """This method should be redefined by subclasses"""
