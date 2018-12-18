@@ -1,28 +1,17 @@
 @startuml
-Sensor <|-- Importer
-Sensor <|-- ModelSensor
-Sensor <|-- Agregator
 
-ModelSensor <|-- Polynomial
-ModelSensor <|-- MarkovChain
-ModelSensor <|-- FunctionSensor
+Simulation "1..n" o-- Sensor
+Simulation "1" o-- Display
 
-Simulation o-- Sensor
-Simulation o-- Display
+Timestamp -- Simulation
+Timestamp -- Sensor
 
-Display <|-- DisplayGrafana
-Display <|-- DisplayCSV
+Data -- Sensor
+Data -- Simulation
 
 Simulation : run()
 Simulation : Sensor input
 Simulation : Display output
+Simulation : float speed
 
-Sensor : float speed
-Sensor : getData()
-
-Importer : string path
-Importer : DataFormat
-Importer : load()
-
-Agregator : List<Sensor> sensors
 @enduml
