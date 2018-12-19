@@ -1,32 +1,32 @@
 """The sensor generates data according to a given function"""
 
-from sensor.modelSensor import ModelSensor, temporalCondition
+from sensor import ModelSensor, checkNoneTime
 from utils.data import Data
+
 
 class FunctionSensor(ModelSensor):
     """Generates data according to a function given by the user"""
 
-    def __init__(self, speed = 1, name = None, start = 0, end = 10, period = 1, function = None):
-        ModelSensor.__init__(self, speed, name, start, end, period)
+    def __init__(self, name=None, step="1s", function=None):
+        ModelSensor.__init__(self, name=name, step=step)
         self.function = function
-        self.next = None
 
     def setFunction(self, f):
         self.function = f
 
     def _setup(self):
-        self.next = self.function(self.current_time)
-        
-    @temporalCondition
-    def _getNext(self):
-        if self.next == None:
-            self.next = self.function(self.current_time)
-        return Data(self.current_time, self.name, self.next)
+        self.next = None
 
-    @temporalCondition
+    @checkNoneTime
+    def _getNext(self):
+        if self.next is None:
+            self.next = Data(self.time, self.name, self.function(self.time))
+        return self.next
+
+    @checkNoneTime
     def _popNext(self):
-        return_val = self._getNext()
+        data = self._getNext()
         self._advanceTime()
         self.next = None
         self._getNext()
-        return return_val.scaleTime(1/self.speed)
+        return data

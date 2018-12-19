@@ -2,11 +2,12 @@
 
 from sensor.sensor import Sensor
 
+
 class Importer(Sensor):
     """ An super-class that gives the function to read a file """
 
-    def __init__(self, filename, speed = 1, name = None):
-        Sensor.__init__(self, speed, name)
+    def __init__(self, filename, name=None):
+        Sensor.__init__(self, name)
         self.filename = filename
 
     def read_file(self):

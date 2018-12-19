@@ -18,8 +18,11 @@ class Data():
     def __setitem__(self, key, value):
         self.data[key] = value
 
-    def scaleTime(self, factor):
-        return Data(self.timestamp * factor, self.sensor, self.value, _data=self.data)
+    def scaleTime(self, ref=None, factor=None):
+        delta_to_ref = self.timestamp - ref
+        scaled_delta = delta_to_ref * factor
+        new_time = ref + scaled_delta
+        return Data(new_time, self.sensor, self.value, _data=self.data)
 
     def shiftTime(self, delta):
         return Data(self.timestamp + delta, self.sensor, self.value, _data=self.data)
@@ -29,7 +32,10 @@ class Data():
 
     def to_dict(self):
         return_val = {}
-        return_val["t"] = self.timestamp
+        return_val["t"] = self.timestamp.timestamp()
         return_val["v"] = self.value
         return_val["n"] = self.sensor
         return return_val
+
+    def __lt__(self, other):
+        return self.timestamp < other.timestamp

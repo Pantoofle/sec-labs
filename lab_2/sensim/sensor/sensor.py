@@ -1,31 +1,53 @@
 """An abstract class that will be the parent class of the other (usefull) classes"""
 
 from copy import deepcopy
+from utils import Timestamp
+
+import functools
+
+
+def checkNoneTime(func):
+    @functools.wraps(func)
+    def wrapper(self):
+        if self.time is None:
+            return None
+        else:
+            return func(self)
+    return wrapper
+
 
 class Sensor():
     """Here are the definitions of the methods that should be redefined by the subclasses"""
 
     nb_defined = 0
 
-    def __init__(self, speed = 1, name=None):
-        if name == None:
-            name = "Sensor_%d"%(Sensor.nb_defined)
+    def __init__(self, name=None):
+        if name is None:
+            self.name = "Sensor_%d" % (Sensor.nb_defined)
+        else:
+            self.name = name
+        print("Building sensor : " + self.name)
         Sensor.nb_defined += 1
-        self.name = name
-        self.speed = speed
-
-    def setName(self, name):
-        self.name = name
+        self.time = None
 
     def named(self, name):
-        self.setName(name)
-        return self
+        cpy = deepcopy(self)
+        cpy.name = name
+        return cpy
 
-    def setSpeed(self, speed):
-        self.speed = speed
+    def setTime(self, time):
+        """Sets the time. This is dangerous as it does not trigger the intermediate steps"""
+        self.time = Timestamp(time)
 
-    def getSpeed(self):
-        return self.speed
+    def shiftTime(self, delta):
+        """Shifts the time. Dangerous : does not trigger the intermediate steps"""
+        self.time = self.time + delta
+
+    def moveToTime(self, time):
+        """Move to given time. Apply sensor evolution while moving. Moves only if sensor is too much in the past."""
+        if self.time is not None:
+            while(self.time < time):
+                self._advanceTime()
 
     def __add__(self, other):
         if isinstance(other, str):
@@ -47,12 +69,18 @@ class Sensor():
             return MultipleSensor(nb=other, sensor=self).build()
 
     def turnedOffAt(self, time):
-        from sensor import MaskedSensor
-        return MaskedSensor(name=self.name+"_masked", stop=time, sensor=self)
+        if time:
+            from sensor import MaskedSensor
+            return MaskedSensor(name=self.name+"_masked", stop=time, sensor=self)
+        else:
+            return self
 
     def turnedOnAt(self, time):
-        from sensor import MaskedSensor
-        return MaskedSensor(name=self.name+"_masked", start=time, sensor=self)
+        if time:
+            from sensor import MaskedSensor
+            return MaskedSensor(name=self.name+"_masked", start=time, sensor=self)
+        else:
+            return self
 
     def turnedOnBetweenTime(self, start, stop):
         from sensor import MaskedSensor
@@ -66,14 +94,23 @@ class Sensor():
             setattr(result, k, deepcopy(v, memo))
         return result
 
+    @checkNoneTime
     def _getNext(self):
         """This method should be redefined by subclasses"""
 
         raise AssertionError("You have to implement the method _getNext in the subclasses")
 
+    @checkNoneTime
     def _popNext(self):
         """This method should be redefined by subclasses"""
 
         raise AssertionError("You have to implement the method _getNext in the subclasses")
 
+    def _setup(self):
+        """This method may be redefined by subclasses"""
+        pass
 
+    def _advanceTime(self):
+        """This method should be redefined by subclasses"""
+
+        raise AssertionError("You have to implement the method _advanceTime in the subclasses")

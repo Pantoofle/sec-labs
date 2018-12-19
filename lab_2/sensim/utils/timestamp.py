@@ -28,21 +28,54 @@ class Timestamp():
             self.time = time
         elif isinstance(time, str):
             self.time = parser.parse(time)
+        elif isinstance(time, int):
+            self.time = datetime.fromtimestamp(time)
+        elif isinstance(time, float):
+            self.time = datetime.fromtimestamp(int(time))
+        elif isinstance(time, Timestamp):
+            self.time = time.time
+        else:
+            raise RuntimeError("Can't build a timestamp from this : ", type(time))
 
     def __add__(self, other):
-        if isinstance(other, timedelta):
+        if isinstance(other, Timestamp):
+            return Timestamp(self.time + other.time)
+        elif isinstance(other, timedelta):
             return Timestamp(self.time + other)
         elif isinstance(other, str):
             return Timestamp(self.time + parse_time_delta(other))
+        else:
+            raise RuntimeError("Cant add Timestamp with ", type(other))
 
     def __radd__(self, other):
         self.__add__(other)
 
     def __sub__(self, other):
-        if isinstance(other, timedelta):
+        if isinstance(other, Timestamp):
+            return self.time - other.time
+        elif isinstance(other, timedelta):
             return Timestamp(self.time - other)
         elif isinstance(other, str):
             return Timestamp(self.time - parse_time_delta(other))
+        elif isinstance(other, int):
+            return self.time - datetime.fromtimestamp(other)
+        else:
+            raise RuntimeError("Cant sub Timestamp with ", type(other))
+
+    def __str__(self):
+        return str(self.time)
+
+    def __le__(self, other):
+        return self.time <= other.time
+
+    def __ge__(self, other):
+        return self.time >= other.time
+
+    def __lt__(self, other):
+        return self.time < other.time
+
+    def __gt__(self, other):
+        return self.time > other.time
 
     def __getattr__(self, name):
         return getattr(self.time, name)

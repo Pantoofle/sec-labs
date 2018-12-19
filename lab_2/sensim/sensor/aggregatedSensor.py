@@ -1,72 +1,85 @@
 """The class of the Aggregated sensors. It aggregate some sensors, and will generate datas for each sensor depending on the next data that should be generated"""
 
-from .sensor import Sensor
+from .sensor import Sensor, checkNoneTime
+
 
 class AggregatedSensor(Sensor):
     """This class deals with many sensors. It contains a list of the sensors controlled."""
 
-    def __init__(self, speed = 1, name = None, sensors = []):
-        Sensor.__init__(self, speed, name)
+    def __init__(self, name=None, sensors=[]):
+        Sensor.__init__(self, name=name)
         self.sensors = sensors
-        self.next_value_sensors  = []
-        self.current_time = 0
 
     def addSensors(self, *args):
         self.sensors += args
-        self.next_value_sensors += [None]*len(args)
 
     def _setup(self):
+        self.next_values = [None]*len(self.sensors)
         for s in self.sensors:
             s._setup()
 
-    #TODO Optimize that, currently we reload all the next at each time, hard to do better...
-    def _getNextIndex(self):
-        """We ask each sensor for the next data that they want to give, update the value in the list next_value_sensors, and return the index of the next data generated"""
+    def setTime(self, time):
+        self.time = time
+        for s in self.sensors:
+            s.setTime(time)
 
-        best_data = None
-        best_data_index = -1
-        self.next_value_sensors = [None]*len(self.sensors)
-        for i in range(len(self.next_value_sensors)):
-            current_sensor = self.sensors[i]
-            current_data = current_sensor._getNext()
-            self.next_value_sensors[i] = current_data
-            if current_data != None and (best_data == None or best_data.timestamp > current_data.timestamp):
-                best_data = current_data
-                best_data_index = i
-        return best_data_index
+    def _updateTime(self):
+        times = [s.time for s in self.sensors]
+        self.time = min(times)
 
+    def _advanceTime(self):
+        # Get the inner time of all sensors
+        times = [s.time for s in self.sensors if s.time is not None]
+
+        if not times:
+            self.time = None
+        elif self.time < min(times):
+            self.time = min(times)
+        else:
+            # Find the one that advanced the least
+            last = times.index(min(times))
+            # Update it
+            self.sensors[last]._advanceTime()
+            times[last] = self.sensors[last].time
+            # Update sensor time
+            self.time = min(times)
+
+    def _updateNextValues(self):
+        """Ask each sensor for the next data that they want to give, update next_values"""
+        # Clean old values
+        self.next_values = [v if v is not None and v.timestamp >= self.time else None for v in self.next_values]
+        # Ask for missing values
+        to_update = [i for i, v in enumerate(self.next_values) if v is None]
+        for i in to_update:
+            # print(self.name + " asking " + self.sensors[i].name + " to update")
+            self.next_values[i] = self.sensors[i]._getNext()
+
+    @checkNoneTime
     def _getNext(self):
         """returns the next data that should be generated"""
-
-        index = self._getNextIndex()
-        if index == -1:
+        # print(self.name + " : getNext() ")
+        # Update the data
+        self._updateNextValues()
+        # List valid timestamps
+        timestamps = [(d.timestamp, i) for i, d in enumerate(self.next_values) if d is not None]
+        if not timestamps:
             return None
         else:
-            return self.next_value_sensors[index].scaleTime(1/self.speed)
+            next = min(timestamps)[1]
+            return self.next_value_sensors[next]
 
+    @checkNoneTime
     def _popNext(self):
         """Will effectively advance the time"""
-
-        next_sensor = self._getNextIndex()
-        if next_sensor == -1:
+        # print(self.name + " : popNext() ")
+        # Update the data
+        self._updateTime()
+        self._updateNextValues()
+        # List valid timestamps
+        timestamps = [(d.timestamp, i) for i, d in enumerate(self.next_values) if d is not None]
+        if not timestamps:
             return None
         else:
-            return self.sensors[next_sensor]._popNext().scaleTime(1/self.speed)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            next = min(timestamps)[1]
+            self.next_values[next] = None
+            return self.sensors[next]._popNext()

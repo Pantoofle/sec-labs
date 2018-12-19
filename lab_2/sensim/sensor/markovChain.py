@@ -1,17 +1,18 @@
 """The sensor mimicing the behaviour of a markov chain"""
 
-from sensor.modelSensor import ModelSensor, temporalCondition
+from sensor import ModelSensor, checkNoneTime
 from random import random
 from utils.data import Data
+
 
 class MarkovChain(ModelSensor):
     """Mimics the comportment of a sensor using the model of a markov chain"""
 
-    def __init__(self, speed = 1, name = None, start = 0, end = 10, period = 1):
-        ModelSensor.__init__(self, speed, name, start, end, period)
+    def __init__(self, name=None, step="1s"):
+        ModelSensor.__init__(self, name=name, step=step)
         self.nodes = []
         self.transition = []
-        self.current_node = 0
+        self.current_node = None
         self.next = self.current_node
 
     def addNodes(self, *args):
@@ -32,23 +33,31 @@ class MarkovChain(ModelSensor):
 
     def _setup(self):
         pass
-            
-    @temporalCondition
-    def _getNext(self):
-        if self.next == None:
-            r = random()
-            index = 0
-            while index != len(self.nodes)-1 and r > self.transition[self.current_node][index]:
-                r -= self.transition[self.current_node][index]
-                index += 1
-            self.next = index
-        return Data(self.current_time, self.name, self.nodes[self.next])
 
-    @temporalCondition
+    def _advanceTime(self):
+        self._applyTransition()
+        self.time += self.step
+
+    def _computeNextTransition(self):
+        if self.next is None:
+            r = random()
+            target = 0
+            while target != len(self.nodes)-1 and r > self.transition[self.current_node][target]:
+                r -= self.transition[self.current_node][target]
+                target += 1
+            self.next = target
+
+    def _applyTransition(self):
+        self.current_node = self.next
+        self.next = None
+
+    @checkNoneTime
+    def _getNext(self):
+        self._computeNextTransition()
+        return Data(self.time, self.name, self.nodes[self.next])
+
+    @checkNoneTime
     def _popNext(self):
         return_val = self._getNext()
         self._advanceTime()
-        self.current_node = self.next
-        self.next = None
-        self._getNext()
-        return return_val.scaleTime(1/self.speed)
+        return return_val
