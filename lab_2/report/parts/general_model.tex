@@ -7,7 +7,16 @@ The general model is divided into three main components:
 \item Sensor
 \end{itemize}
 
-Then there is also two components that are more general classes: \emph{Timestamp} and \emph{Data}.
+Then there is also two components that are more general classes: \emph{Timestamp} and \emph{Data}. These two classes will be used by the other components, as they are of general purpose.
+
+Figure \ref{meta-meta-model} shows the links between the different components of the general model.
+
+\begin{figure}
+  \centering
+  \includegraphics[scale = 0.5]{figures/meta-meta-model.png}
+  \label{meta-meta-model}
+  \caption{The general model}
+\end{figure}
 
 \subsection{Simulation}
 
@@ -26,10 +35,13 @@ This is the most interesting class that will allow the user to define sensors. T
 
 \subsection{Timestamp}
 
-TODO
+The Timestamp class is here to provide a more friendly interface for time. Time is crucial in the simulation of sensors because the user might want to speed up the simulation, and see if the simulation will be able to print values in real time (to see if the platform is not overloading).
 
 
 \subsection{Data}
+
+Finally, the Data class will represent the data in memory. This class will not be used by the user but it will be necessary for the application, as it will have to deal with data during computation.
+
 
 
 
