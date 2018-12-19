@@ -1,0 +1,53 @@
+@startuml
+Sensor <|-- Importer
+Sensor <|-- ModelSensor
+Sensor <|-- Aggregator
+
+ModelSensor <|-- MarkovChain
+ModelSensor <|-- FunctionSensor
+
+FunctionSensor <|-- PolynomialSensor
+
+Simulation o-- Sensor
+Simulation o-- Display
+
+Display <|-- InfluxDBDisplay
+Display <|-- JsonDisplay
+
+Importer <|-- JsonImporter
+Importer <|-- CsvImporter
+
+Timestamp : Timestamp add(Timestamp t)
+Timestamp : Timestamp sub(Timestamp t)
+
+Simulation : run()
+Simulation : Sensor input
+Simulation : Display output
+Simulation : float speed
+
+
+Sensor : float speed
+Sensor : getData()
+
+Importer : string filename
+
+MarkovChain : addNodes(nodes)
+MarkovChain : setTransition(node1, node2, probability)
+MarkovChain : setStartNode(node)
+
+FunctionSensor : void setFunction(f)
+
+PolynomialSensor : void setPolynomial(p)
+PolynomialSensor : void setCoefficients(c)
+
+Aggregator : List<Sensor> sensors
+Aggregator : void addSensors(Sensor s1, Sensor s2, ...)
+
+
+
+InfluxDBDisplay : string url
+
+JsonDisplay : string filename
+
+
+@enduml

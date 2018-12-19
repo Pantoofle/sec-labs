@@ -1,0 +1,17 @@
+@startuml
+
+Simulation "1..n" o-- Sensor
+Simulation "1" o-- Display
+
+Timestamp -- Simulation
+Timestamp -- Sensor
+
+Data -- Sensor
+Data -- Simulation
+
+Simulation : run()
+Simulation : Sensor input
+Simulation : Display output
+Simulation : float speed
+
+@enduml
