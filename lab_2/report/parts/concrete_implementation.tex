@@ -25,18 +25,35 @@ The importer class is also an abstract class that implements the function to rea
 
 \subsubsection{The modelSensor abstract class}
 
+This class is an abstract class that represent a sensor modelled by some law. For example, the user may want to define a sensor that will behave like a Markov Chain, or a like a given function. The inherited class will represent a different model. There is an attribute defined by the modelSensor class that is the step of the created sensor. The step attribute will define at which speed the sensor will send data (for example, a computer energy consumption can be received each millisecond, whereas sensor from a parking lot will only send data every second, or minute).
+
 \paragraph{Markov Chains}
 
+One model that is implemented is the one of Markov Chains. The state returned by the sensor is following the low of a Markov Chain. To define a Markov Chain, the user need to define the nodes, the transitions and the starting node. Adding nodes and setting the starting node is easy, the nodes are the values that will be returned by the sensor: for example, if the nodes are integers (modelling the wealth of someone) it will be possible to show it on a graph; the nodes can also be strings (modelling the weather: ``sunny'', ``rainy'', ``snowy'') and then, it will be harder to show the data on a graph.
+
+Setting the transition is harder: the implementation choosed to give a method \verb!addTransition(node1, node2, proba)!. The user have to define all the values of the transitions (the initial probability is 0).
+
+The Markov Chains come with a big issue that are the fact that we use probabilities. The next state of the MC is a random variable, that need to follow a distribution (where the sum of the probabilities is equal to 1). If the user don't specify well the probability of the transitions, this can lead to bugs. The solution that was done was to enforce that the last node have probability equal to one minus the sum of the other probabilities. This way, even if the user enters an illegal probability distribution, the simulation will work.
+This was also done because as we are working with probabilities, we work with floating points. The issue with floating points is that some errors of roundings can occur, even if the user entered a legitimate distribution (for example [0.01, 0.01, ..., 0.01] that are not dyadic numbers). This is very unlikely to happen, but it is possible
+
 \paragraph{FunctionSensor class}
+
+This class will also behave like a sensor, but will generate data from a given function. The function is an attribute of the instance of the class, and there is the setter associated to it.
 
 \subparagraph{Polynomial sensor}
 
 \paragraph{Masked Sensor}
 
-
+\noteMathieu{TODO Simon!}
 
 
 \subsection{Display}
+
+The display is the third big block of the whole simulation. It will output data on different possible outputs. Currently, two types of output are implemented: display to an influxDB database, and to a file in JSON format.
+
+\subsubsection{The Display abstract class}
+
+This class is really here to define the interface that will be used by the simulation. This interface contains the methods \verb!addPlot!, \verb!_setup! and \verb!end!. The method addPlot will add a data in the output. The method end will be called by the simulation when there is no more data to send; this is used by displays in files, because we don't want to open and close the file each time we add a data in the file. To do this, we just open the file at the end of the simulation, write everything, and close right after.
 
 \subsubsection{Display to an influxDB database}
 
