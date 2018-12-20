@@ -1,1 +1,124 @@
-TODO Explain how to use the language
+\subsection{Creating the model}
+
+First, the user needs to create the set of sensors that are in their model.
+Each sensor has type $\texttt{Sensor()}$. This class is an abstract class.
+The user must use sub-classes that define different behaviours.
+
+Each Sensor have a given name. If the name is not defined when building the
+sensor, a pre-generated unique name will be used.
+
+There are three kinds of $\texttt{Sensor(name)}$.
+
+\subsubsection{$\texttt{Importer(name)}$}
+They are used to get data already generated and stored in different formats
+\begin{itemize}
+    \item $\texttt{JSONImporter(name, filename)}$ : Reads the JSON file named
+        $filename$ and outputs the data contained in it. It must contain the
+        following fields:
+        \begin{itemize}
+            \item "bn" : Name of the sensor
+            \item "e" : list of data : each piece of data contains two fields:
+            \item "t" : Timestamp when the data was generated
+            \item "v" : Value of the sensor at time "t"
+        \end{itemize}
+    \item $\texttt{csvImporter(name, filename)}$ : Reads the CSV file named
+        $filename$ and outputs the data contained in it. The first column must
+        be the timestamp. The rest of the columns will be added in the custom
+        fields of the \emph{Data} object.
+\end{itemize}
+
+\subsubsection{$\texttt{ModelSensor(name, step)}$}
+Generates data following a given behaviour. Data is generated on-the-fly. A
+value is generated after each $step$ amount of time.
+
+There are some pre-defined $\texttt{ModelSensor()}$.
+
+\begin{itemize}
+    \item $\texttt{FunctionSensor(name, step, function)}$ : $function$ is a
+python function that will be called on each time step. This allows to use Python
+functions, and external modules (for example, call the $np.sin$ function from
+the numpy module).
+    \item $\texttt{PolynomialSensor(name, step, polynomial, coefs, points)}$ : a
+special case of $\texttt{FunctionSensor}$. It implements a polynomial function.
+There are three ways to define a polynomial sensor :
+    \begin{itemize}
+        \item $polynomial$: give the polynomial function
+        \item $coefs$: give the array of the coefficients of the polynomial
+        \item $points$: give a list of $(x, y)$ values, interpolates the
+        polynomial fitting these points
+    \end{itemize}
+    \item $\texttt{MarkovChain()}$: A Markov chain : use the $\texttt{addState}$,
+    $\texttt{addTransition}$ and $\texttt{setStartNode}$ to define a custom chain.
+    At each time step, it will compute a transition following the given
+    probabilities, and send the new state.
+\end{itemize}
+
+\subsubsection{Wrappers}
+Modify the behaviour of $sensor$ it contains. It is a wrapper that can catch the
+returned data and apply operations on it.
+
+There are three kinds of Wrappers for now:
+\begin{itemize}
+    \item $\texttt{MaskerSensor(name, sensor, start, stop)}$: forwards the data
+of $sensor$ only if the timestamp is between $start$ and $stop$. This allows to
+"hide" the sensor during some time, or activate it only on a given period.
+    \item $\texttt{SpeedSensor(name, sensor, factor)}$: scales the speed of
+$sensor$ by factor $factor$. This allows to set a sensor to run twice as fast,
+or twice as slow.
+    \item $\texttt{AggregatedSensor(name, sensors)}$: encapsulates a set of
+$sensors$. It gathers the data from all $sensors$ and sends them, like a funnel.
+\end{itemize}
+
+\subsection{User-friendly ways to define sensors}
+
+Some functions are added to help the user build Sensors. Each function returns
+the builded sensor, so they can be stacked.
+If $s$ and $s'$ are sensors,
+\begin{itemize}
+    \item $\texttt{s.named(name)}$ : changes the name of the sensor
+    \item $\texttt{s.turnedOnAt(time)}$: disables the sensor before $time$
+    \item $\texttt{s.turnedOffAt(time)}$: disables the sensor after $time$.
+$time$ can be an absolute time, or a relative time (relative to the start time
+of the sensor)
+    \item $\texttt{s.turnedOnBetween(start, stop))}$: both at the same time
+    \item $s + s'$: builds a sensor sending the data of both sensors
+    \item $s * n$ with $n$ an integer : builds a sensor containing $n$ copies
+of $s$
+\end{itemize}
+
+So, if $s$ models the sensor of a parking slot, $(s*30).named("parking")$ is a
+sensor containing 30 independent parking slots, and returning the data of each
+slot. This multiple sensor is called "parking"
+
+\subsection{Preparing the display devices}
+Displays the simulated data to a format where it will be visualised.
+
+\begin{itemize}
+    \item $\texttt{InfluxDBDisplay(url)}$ : outputs the data to an influxDB data
+base running at url $url$
+    \item $\texttt{JSONDisplay(filename)}$ : outputs the data in a JSON file
+called $filename$
+\end{itemize}
+
+
+\subsection{Creating the simulation}
+The $\texttt{Simulation}$ object is built with all the previous objects:
+$\texttt{Simulation(name, display, sensors, speed, start, stop, realtime)}$
+
+\begin{itemize}
+    \item $name$ : name of the simulation
+    \item $display$ : the display where to export the data
+    \item $sensors$ : list of the sensors to simulate
+    \item $speed$ : speed factor to speed up or slow down the whole simulation
+    \item $start$ : timestamp when the simulation starts
+    \item $stop$ : timestamp when the simulation ends
+    \item $realtime$ : if $True$, the simulation will wait and make sure the
+data is generated at the good timestamp, nothing will be pre computed.
+\end{itemize}
+
+Once the simulation $simu$ is defined, a simple $simu.run()$ will start the
+simulation.
+
+\subsection{Examples}
+The easiest way to discover how to build the simulation is to look at the
+examples given in the folder, they depict most of the functionnalities.
