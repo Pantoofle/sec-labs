@@ -1,8 +1,8 @@
 """ A class that will import data from a CSV type file """
 
-from sensor.importer import Importer, checkNoneTime
-from utils.data import *
-from utils.timestamp import *
+from sensor import Importer, checkNoneTime
+from utils.data import Data
+from utils.timestamp import Timestamp
 
 import csv
 from collection import deque
@@ -49,25 +49,3 @@ class CsvImporter(Importer):
                 for j in range(1, len(datareader[i])):
                     all_data.append(Data(Timestamp(datareader[i][0]), attributes[j], find_type(delete_out_spaces(datareader[i][j]))))
         self.data = deque(sorted(all_data))
-                    
-
-
-    def _advanceTime(self):
-        if self.data:
-            self.data.popleft()
-            self.time = self.data[0].timestamp
-        else:
-            self.time = None
-
-    @checkNoneTime
-    def _getNext(self):
-        if self.data:
-            return self.data[0]
-        else:
-            return None
-
-    @checkNoneTime
-    def _popNext(self):
-        return_val = self.getNext()
-        self._advanceTime()
-        return return_val
