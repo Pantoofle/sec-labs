@@ -5,10 +5,17 @@ from .display import Display
 
 class InfluxDBDisplay(Display):
     """ A class that will push data in an influxDB database """
-    
+
     def __init__(self, url):
         Display.__init__(self)
-        self.url = url
+        self.setup_url = url + "query"
+        self.url = url + "write?db=sec"
+        if setup_url is None:
+            self.setup_url = self.url
+
+    def _setup(self):
+        # Send message to create db
+        requests.post(url=self.setup_url, data="q=CREATE DATABASE sec")
 
     def addPlot(self, data):
         sensor = data.sensor

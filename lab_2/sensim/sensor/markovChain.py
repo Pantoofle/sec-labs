@@ -36,7 +36,7 @@ class MarkovChain(ModelSensor):
 
     def _advanceTime(self):
         self._applyTransition()
-        self.time += self.step
+        ModelSensor._advanceTime(self)
 
     def _computeNextTransition(self):
         if self.next is None:

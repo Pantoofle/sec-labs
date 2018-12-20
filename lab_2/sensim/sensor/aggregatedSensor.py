@@ -30,7 +30,6 @@ class AggregatedSensor(Sensor):
     def _advanceTime(self):
         # Get the inner time of all sensors
         times = [s.time for s in self.sensors if s.time is not None]
-
         if not times:
             self.time = None
         elif self.time < min(times):
@@ -66,7 +65,7 @@ class AggregatedSensor(Sensor):
             return None
         else:
             next = min(timestamps)[1]
-            return self.next_value_sensors[next]
+            return self.next_values[next]
 
     @checkNoneTime
     def _popNext(self):
@@ -82,4 +81,6 @@ class AggregatedSensor(Sensor):
         else:
             next = min(timestamps)[1]
             self.next_values[next] = None
-            return self.sensors[next]._popNext()
+            val = self.sensors[next]._popNext()
+            self._advanceTime()
+            return val

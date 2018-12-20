@@ -22,5 +22,7 @@ class MultipleSensor(Generator):
     def build(self):
         if self.nb is None or self.modelSensor is None:
             raise AssertionError("Can't generate a sensor without the copy number and the sensor to copy")
-        sensors = [deepcopy(self.modelSensor) for i in range(self.nb)]
+
+        name = self.modelSensor.name
+        sensors = [deepcopy(self.modelSensor).named(name + "_" + str(i)) for i in range(self.nb)]
         return AggregatedSensor(name=self.name, sensors=sensors)

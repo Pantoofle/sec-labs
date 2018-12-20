@@ -2,7 +2,7 @@
 given temporal segment, and you can enable a given segment"""
 
 from sensor import Sensor, checkNoneTime
-from utils import Timestamp
+from utils import Timestamp, parse_time_delta
 from copy import deepcopy
 
 
@@ -13,14 +13,8 @@ class MaskedSensor(Sensor):
         Sensor.__init__(self, name=name)
         self.sensor = deepcopy(sensor)
 
-        if not isinstance(start, Timestamp):
-            start = Timestamp(start)
-        self.start = start
-
-        if stop:
-            if not isinstance(stop, Timestamp):
-                stop = Timestamp(stop)
-        self.stop = stop
+        self.turnOnAt(start)
+        self.turnOffAt(stop)
 
     def __getattr__(self, name):
         return getattr(self.sensor, name)
@@ -29,18 +23,30 @@ class MaskedSensor(Sensor):
         self.sensor._setup()
 
     def turnOffAt(self, time):
+        if not isinstance(time, Timestamp):
+            try:
+                time = self.start + parse_time_delta(time)
+            except AssertionError:
+                time = Timestamp(time)
         self.stop = time
 
     def turnOnAt(self, time):
-        self.start = time
+        if not isinstance(time, Timestamp):
+            self.start = Timestamp(time)
+        else:
+            self.start = time
 
     def setTime(self, time):
         self.time = time
         self.sensor.setTime(time)
 
     def turnOnBetweenTime(self, start, stop):
-        self.start = start
-        self.stop = stop
+        self.turnOnAt(start)
+        self.turnOffAt(stop)
+
+    def _advanceTime(self):
+        self.sensor._advanceTime()
+        self.time = self.sensor.time
 
     @checkNoneTime
     def _getNext(self):
@@ -55,6 +61,7 @@ class MaskedSensor(Sensor):
     @checkNoneTime
     def _popNext(self):
         next_data = self.sensor._popNext()
+        self.time = self.sensor.time
         if next_data:
             self.moveToTime(self.start)
             if (next_data.timestamp > self.stop):

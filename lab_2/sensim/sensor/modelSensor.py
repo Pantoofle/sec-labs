@@ -15,3 +15,4 @@ class ModelSensor(Sensor):
 
     def _advanceTime(self):
         self.time = self.time + self.step
+        # print(self, " : step to time ", self.time)

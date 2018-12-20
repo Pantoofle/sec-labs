@@ -26,7 +26,6 @@ class Sensor():
             self.name = "Sensor_%d" % (Sensor.nb_defined)
         else:
             self.name = name
-        print("Building sensor : " + self.name)
         Sensor.nb_defined += 1
         self.time = None
 
@@ -68,15 +67,18 @@ class Sensor():
             from generator import MultipleSensor
             return MultipleSensor(nb=other, sensor=self).build()
 
+    def __str__(self):
+        return "%-20s : %-50s | ID=%-15s" % (self.name, str(type(self)), str(id(self)))
+
     def turnedOffAt(self, time):
-        if time:
+        if time is not None:
             from sensor import MaskedSensor
             return MaskedSensor(name=self.name+"_masked", stop=time, sensor=self)
         else:
             return self
 
     def turnedOnAt(self, time):
-        if time:
+        if time is not None:
             from sensor import MaskedSensor
             return MaskedSensor(name=self.name+"_masked", start=time, sensor=self)
         else:

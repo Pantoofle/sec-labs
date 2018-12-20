@@ -5,13 +5,9 @@ from sensor import *
 
 
 class Interpolator(Generator):
-    def __init__(self, speed = 1, name = None, start = 0, end = 10, period = 1):
-        self.speed = speed
+    def __init__(self, name=None, step="1s"):
         self.name = name
-        self.start = start
-        self.end = end
-        self.period = period
-
+        self.step = step
         self.points = []
 
     def addPoint(self, x, y):
@@ -27,12 +23,7 @@ class Interpolator(Generator):
         x = [p[0] for p in self.points]
         y = [p[1] for p in self.points]
 
-        coefs = np.polyfit(x, y, len(x))
+        coefs = np.polyfit(x, y, len(x)-1)
 
-        return PolynomialSensor(speed = self.speed,
-                                name = self.name,
-                                start = self.start,
-                                end = self.end,
-                                period = self.period,
-                                coefs = coefs)
+        return PolynomialSensor(name = self.name, coefs = coefs)
 

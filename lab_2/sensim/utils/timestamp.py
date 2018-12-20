@@ -1,9 +1,11 @@
 import re
+from copy import deepcopy
 
 from dateutil import parser
 from datetime import *
 
 regex = re.compile(r'^((?P<years>[\.\d]+?)y)?((?P<days>[\.\d]+?)d)?((?P<hours>[\.\d]+?)h)?((?P<minutes>[\.\d]+?)m)?((?P<seconds>[\.\d]+?)s)?$')
+
 
 def parse_time_delta(time_str):
     """
@@ -66,16 +68,33 @@ class Timestamp():
         return str(self.time)
 
     def __le__(self, other):
+        if not isinstance(other, Timestamp):
+            other = Timestamp(other)
         return self.time <= other.time
 
+
     def __ge__(self, other):
+        if not isinstance(other, Timestamp):
+            other = Timestamp(other)
         return self.time >= other.time
 
     def __lt__(self, other):
+        if not isinstance(other, Timestamp):
+            other = Timestamp(other)
         return self.time < other.time
 
     def __gt__(self, other):
+        if not isinstance(other, Timestamp):
+            other = Timestamp(other)
         return self.time > other.time
 
     def __getattr__(self, name):
         return getattr(self.time, name)
+
+    def __deepcopy__(self, memo):
+        cls = self.__class__
+        result = cls.__new__(cls)
+        memo[id(self)] = result
+        for k, v in self.__dict__.items():
+            setattr(result, k, deepcopy(v, memo))
+        return result
