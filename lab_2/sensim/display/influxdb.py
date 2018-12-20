@@ -10,16 +10,15 @@ class InfluxDBDisplay(Display):
         Display.__init__(self)
         self.setup_url = url + "query"
         self.url = url + "write?db=sec"
-        if setup_url is None:
-            self.setup_url = self.url
 
     def _setup(self):
         # Send message to create db
-        requests.post(url=self.setup_url, data="q=CREATE DATABASE sec")
+        requests.post(url=self.setup_url, data={"q":"DROP DATABASE sec"})
+        requests.post(url=self.setup_url, data={"q":"CREATE DATABASE sec"})
 
     def addPlot(self, data):
         sensor = data.sensor
-        timestamp = int(data.timestamp)
+        timestamp = int(data.timestamp.timestamp())*1000000000
         value = data.value
 
         fields = str(sensor)
