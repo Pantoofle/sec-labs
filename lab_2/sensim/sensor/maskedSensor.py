@@ -51,7 +51,7 @@ class MaskedSensor(Sensor):
     @checkNoneTime
     def _getNext(self):
         next_data = self.sensor._getNext()
-        if next_data:
+        if next_data is not None:
             self.moveToTime(self.start)
             if (next_data.timestamp > self.stop):
                 # print(self.name, " masked : ", next_data.timestamp, " after stop ")
@@ -62,7 +62,7 @@ class MaskedSensor(Sensor):
     def _popNext(self):
         next_data = self.sensor._popNext()
         self.time = self.sensor.time
-        if next_data:
+        if next_data is not None:
             self.moveToTime(self.start)
             if (next_data.timestamp > self.stop):
                 # print(self.name, " masked : ", next_data.timestamp, " after stop ")
