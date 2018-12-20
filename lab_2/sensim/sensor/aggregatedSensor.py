@@ -82,5 +82,7 @@ class AggregatedSensor(Sensor):
             next = min(timestamps)[1]
             self.next_values[next] = None
             val = self.sensors[next]._popNext()
+            if val is not None:
+                val.sensor = self.name + "_" + val.sensor
             self._advanceTime()
             return val

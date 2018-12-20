@@ -25,4 +25,5 @@ class MultipleSensor(Generator):
 
         name = self.modelSensor.name
         sensors = [deepcopy(self.modelSensor).named(name + "_" + str(i)) for i in range(self.nb)]
+        print("Building sensors from ", name)
         return AggregatedSensor(name=self.name, sensors=sensors)

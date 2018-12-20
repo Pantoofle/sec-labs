@@ -30,9 +30,8 @@ class Sensor():
         self.time = None
 
     def named(self, name):
-        cpy = deepcopy(self)
-        cpy.name = name
-        return cpy
+        self.name = name
+        return self
 
     def setTime(self, time):
         """Sets the time. This is dangerous as it does not trigger the intermediate steps"""
