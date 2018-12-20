@@ -1,9 +1,9 @@
-from sensor import FunctionSensor, MarkovChain
+from sensor import FunctionSensor, MarkovChain, CsvImporter
 from display import JsonDisplay
 from simulation import Simulation
 
 print("Define parking...")
-parking_place = FunctionSensor(function=lambda x: x.second).named("slot")
+parking_place = CsvImporter("bike_csv.csv")
 
 print("Prepare display...")
 display = JsonDisplay("test_ens.raw")
