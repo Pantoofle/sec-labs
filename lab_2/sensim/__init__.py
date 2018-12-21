@@ -1,4 +1,4 @@
 from .display import *
 from .utils import *
-from .sensors import *
+from .sensor import *
 from .generator import *

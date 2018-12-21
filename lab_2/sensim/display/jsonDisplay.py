@@ -1,6 +1,6 @@
 """ A display that will write a json file"""
 
-from display import Display
+from .display import Display
 import json
 
 

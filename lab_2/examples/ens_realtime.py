@@ -1,4 +1,4 @@
-from ...sensim import *
+from sensim import *
 
 #from sensor import FunctionSensor, MarkovChain
 #from display import JsonDisplay, InfluxDBDisplay
