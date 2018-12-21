@@ -138,8 +138,7 @@ to read text from an input file, and the functions to get the next data
 at the creation of the class. The real importation of the data (depending
 on the type of storage of the data) is done in inherited classes, during the
 setup phase. During this phase, the inherited classes will have to store the
-data in the attribute \verb!data!, in a \verb!deque! \noteMathieu{Expliquer
-cela}, where the timestamps are sorted in increasing order. Then the methods
+data in the attribute \verb!data!, in a \verb!deque! (which is a list where we can pop the first element in constant time), where the timestamps are sorted in increasing order. Then the methods
 \verb!_popNext! and \verb!_getNext! will do the interface with the simulation
 (by popping data from the \verb!deque!).
 
@@ -147,8 +146,7 @@ cela}, where the timestamps are sorted in increasing order. Then the methods
 
 To import a JSON file, we need to know what
 will be the attributes of the main dictionnary. I use
-\url{https://github.com/SINTEF-9012/sensapp/tree/master/net.modelbased.sensapp.data.samples/CyclingData}[this
-format], as it is suggested in the subject of the project. We suppose that:
+\href{https://github.com/SINTEF-9012/sensapp/tree/master/net.modelbased.sensapp.data.samples/CyclingData}{this format}, as it is suggested in the subject of the project. We suppose that:
 
 \begin{itemize}
 \item the main data is a dictionary
@@ -248,7 +246,9 @@ regular way.
 
 \subsubsection{Display to a file in JSON format}
 
-\noteMathieu{TODO Mathieu}
+The \verb!Data! class gives a way to export a data in a dictionary. The class JsonDisplay will store in a list all the data it receive, and at the call of the \verb!_end! it will store it in the file selected.
+
+The output file will contain the name of the database, the base time (time when the simulation was done), the unit of the time, and then the list of data.
 
 
 \subsection{Generator}
