@@ -44,7 +44,7 @@ class Sensor():
     def moveToTime(self, time):
         """Move to given time. Apply sensor evolution while moving. Moves only if sensor is too much in the past."""
         if self.time is not None:
-            while(self.time < time):
+            while(self.time != None and self.time < time):
                 self._advanceTime()
 
     def __add__(self, other):

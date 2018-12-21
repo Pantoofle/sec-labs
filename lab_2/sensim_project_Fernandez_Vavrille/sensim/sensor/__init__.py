@@ -1,5 +1,5 @@
-from .aggregatedSensor import *
 from .sensor import *
+from .aggregatedSensor import *
 from .modelSensor import *
 from .markovChain import *
 from .functionSensor import *

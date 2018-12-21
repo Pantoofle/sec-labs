@@ -46,5 +46,7 @@ class CsvImporter(Importer):
             all_data = []
             for i in range(1,len(datareader)):
                 for j in range(1, len(datareader[i])):
-                    all_data.append(Data(Timestamp(datareader[i][0]), attributes[j], find_type(delete_out_spaces(datareader[i][j]))))
+                    # We suppose that the data is in seconds
+                    time = int(datareader[i][0])
+                    all_data.append(Data(Timestamp(time), attributes[j], find_type(delete_out_spaces(datareader[i][j]))))
         self.data = deque(sorted(all_data))
