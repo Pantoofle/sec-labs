@@ -1,7 +1,4 @@
-from sensor import FunctionSensor, MarkovChain, CsvImporter
-from display import JsonDisplay
-from simulation import Simulation
-
+from sensim import *
 print("Define parking...")
 parking_place = CsvImporter("bike_csv.csv")
 

@@ -1,6 +1,4 @@
-from sensor import *
-from display import JsonDisplay
-from utils import Simulation
+from sensim import *
 
 # Define Chain
 s = PolynomialSensor(name="poly_coef", coefs = [2, 0, 0])

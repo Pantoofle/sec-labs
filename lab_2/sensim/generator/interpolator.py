@@ -1,7 +1,7 @@
 import numpy as np
 
-from generator import *
-from sensor import *
+from sensim.generator import *
+from sensim.sensor import *
 
 
 class Interpolator(Generator):

@@ -1,7 +1,4 @@
-from sensor import MarkovChain
-from sensor import AggregatedSensor
-from display import InfluxDBDisplay
-
+from sensim import *
 import time
 
 # Define Chain
@@ -21,11 +18,4 @@ aggr = AggregatedSensor(sensors = [m, rich], speed = 0.5)
 # Define Display
 display = InfluxDBDisplay("http://localhost:8086/write?db=sec")
 
-now = int(time.time()-86000)
-
-for i in range(30):
-    point = aggr._popNext()
-    point = point.shiftTime(now)
-    point = point.scaleTime(1000000000)
-    print(point)
-    print(type(idisplay.addPlot(point)))
+simu = Simulation(TODO implement)

@@ -1,7 +1,7 @@
 """ The main class that will run the simulation and encapsulate the sensors, and the display"""
 
-from sensor import AggregatedSensor
-from utils import Timestamp, parse_time_delta
+from sensim.sensor import AggregatedSensor
+from sensim.utils import Timestamp, parse_time_delta
 from datetime import timedelta, datetime
 
 from time import sleep

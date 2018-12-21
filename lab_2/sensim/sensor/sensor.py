@@ -56,14 +56,14 @@ class Sensor():
         elif isinstance(other, Sensor):
             # Sensor + Sensor : superpose two sensors, generating an aggregated sensor
             s = deepcopy(self)
-            from sensor import AggregatedSensor
+            from sensim.sensor import AggregatedSensor
             return AggregatedSensor(sensors=[s, other])
 
     def __mul__(self, other):
         if isinstance(other, int):
             # Sensor * integer : generate an aggregated sensor containing n
             # copies of the sensor
-            from generator import MultipleSensor
+            from sensim.generator import MultipleSensor
             return MultipleSensor(nb=other, sensor=self).build()
 
     def __str__(self):
@@ -71,20 +71,20 @@ class Sensor():
 
     def turnedOffAt(self, time):
         if time is not None:
-            from sensor import MaskedSensor
+            from sensim.sensor import MaskedSensor
             return MaskedSensor(name=self.name+"_masked", stop=time, sensor=self)
         else:
             return self
 
     def turnedOnAt(self, time):
         if time is not None:
-            from sensor import MaskedSensor
+            from sensim.sensor import MaskedSensor
             return MaskedSensor(name=self.name+"_masked", start=time, sensor=self)
         else:
             return self
 
     def turnedOnBetweenTime(self, start, stop):
-        from sensor import MaskedSensor
+        from sensim.sensor import MaskedSensor
         return MaskedSensor(name=self.name+"_masked", stop=stop, start=start, sensor=self)
 
     def __deepcopy__(self, memo):

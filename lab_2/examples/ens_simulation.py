@@ -1,7 +1,4 @@
-from sensor import FunctionSensor, MarkovChain
-from display import JsonDisplay
-from simulation import Simulation
-
+from sensim import *
 from math import sin
 
 print("Define parking...")
