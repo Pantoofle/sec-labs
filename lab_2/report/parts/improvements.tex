@@ -5,12 +5,18 @@ This section presents the improvements that can be done to the project. The impr
 
 \label{improvement_MC}
 
-\noteMathieu{TODO Mathieu}
+The way to define Markov Chains is currently a little unintuitive for the user. The user adds the nodes, and the starting node (which is fine), but the issue comes when defining the transition matrix. The current implementation uses the function \verb!addTransition(node1, node2, proba)!.
+This can be improved because it is tedious to define each transition by hand. One could improve it by giving a function \verb!addOneTransition(node, transition)! where the transition parameter is a dictionary containing the probability for each associated key. To be even faster, one could add a function to define the whole transition matrix in one time, with a dictionnary contaning the transition for each associated node.
 
-
+The python dictionaries seems to be a good way to do it because they really show the fact that the keys and the values are associated. Then it will be translated to a real transition matrix, which is less user-friendly, but more programmer-friendly.
 
 
 \subsection{JsonImporter}
 
-\label{imprevement_jsonimporter}
+\label{imprevoment_jsonimporter}
 
+The current implementation of the JsonImporter class does not give possibilities for other key names in the dictionary. The key \verb!"bn"! have to contain the name of the sensor, as well as the other forced keys. This suppositions were done because we saw on examples that it was one way to represent data from sensors.
+
+To improve this importer, one can allow the user to specify how is the file loaded. Json files have a tree structure where nodes are given by types, links of the tree are given by keys (of dictionaries) or indices (of lists), and leaves of the tree are data of the file. By specifying the structure of the tree, the user would be able to have personalized json files.
+
+With that, we should have predefined tree structures (for example, the one that is already implemented). This way, one could implement all the main json structures for sensor outputs, and make them available to the user.
