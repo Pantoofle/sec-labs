@@ -1,4 +1,4 @@
-from sensor import *
+from sensim.sensor import *
 
 class Generator:
     def __init__(self, name=None):

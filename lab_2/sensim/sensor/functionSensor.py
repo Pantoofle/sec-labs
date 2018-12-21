@@ -1,7 +1,7 @@
 """The sensor generates data according to a given function"""
 
-from sensor import ModelSensor, checkNoneTime
-from utils.data import Data
+from sensim.sensor import ModelSensor, checkNoneTime
+from sensim.utils.data import Data
 
 
 class FunctionSensor(ModelSensor):

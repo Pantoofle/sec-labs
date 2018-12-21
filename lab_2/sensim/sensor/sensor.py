@@ -1,7 +1,7 @@
 """An abstract class that will be the parent class of the other (usefull) classes"""
 
 from copy import deepcopy
-from utils import Timestamp
+from sensim.utils import *
 
 import functools
 

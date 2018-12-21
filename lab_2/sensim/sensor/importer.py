@@ -1,6 +1,6 @@
 """ An abstract super-class that gives the function to read a file"""
 
-from sensor.sensor import Sensor
+from sensim.sensor.sensor import Sensor
 
 
 class Importer(Sensor):

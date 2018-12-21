@@ -1,8 +1,8 @@
 """A masked sensor : only a given period will return data. You can disable a
 given temporal segment, and you can enable a given segment"""
 
-from sensor import Sensor, checkNoneTime
-from utils import Timestamp, parse_time_delta
+from sensim.sensor import Sensor, checkNoneTime
+from sensim.utils import Timestamp, parse_time_delta
 from copy import deepcopy
 
 

@@ -1,8 +1,8 @@
 """The sensor mimicing the behaviour of a markov chain"""
 
-from sensor import ModelSensor, checkNoneTime
+from sensim.sensor import ModelSensor, checkNoneTime
 from random import random
-from utils.data import Data
+from sensim.utils.data import Data
 
 
 class MarkovChain(ModelSensor):

@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from sensor import FunctionSensor
+from sensim.sensor import FunctionSensor
 
 
 class PolynomialSensor(FunctionSensor):

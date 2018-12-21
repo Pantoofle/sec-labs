@@ -1,8 +1,8 @@
 """ A class that will import data stored in JSON files """
 
-from sensor import Importer, checkNoneTime
-from utils.data import Data
-from utils.timestamp import Timestamp
+from sensim.sensor import Importer, checkNoneTime
+from sensim.utils.data import Data
+from sensim.utils.timestamp import Timestamp
 
 import json
 from collections import deque

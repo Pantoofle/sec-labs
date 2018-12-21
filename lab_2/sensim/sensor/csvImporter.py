@@ -1,11 +1,11 @@
 """ A class that will import data from a CSV type file """
 
-from sensor import Importer, checkNoneTime
-from utils.data import Data
-from utils.timestamp import Timestamp
+from sensim.sensor import Importer, checkNoneTime
+from sensim.utils.data import Data
+from sensim.utils.timestamp import Timestamp
 
 import csv
-from collection import deque
+from collections import deque
 
 def csvImporterTemporalCondition(func):
     @functools.wraps(func)
@@ -30,8 +30,7 @@ def find_type(data):
         try:
             val = float(data)
         except:
-            try:
-                val = data
+            val = data
     return val
 
 class CsvImporter(Importer):
