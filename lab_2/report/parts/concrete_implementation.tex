@@ -1,19 +1,40 @@
 
-In this section, we will present how we implemented everything. The presentation will be done class by class. All the functions that are prefixed by an underscore should never be used by the user (for example \verb!_popNext! or \verb!_setup!). These functions are auxilliary functions that are used by the simulation to generate the data. This convention follows the PEP8 convention of python, as python does not give a way to protect methods.
+In this section, we will present how we implemented everything. The
+presentation will be done class by class. All the functions that are
+prefixed by an underscore should never be used by the user (for example
+\verb!_popNext! or \verb!_setup!). These functions are auxilliary functions
+that are used by the simulation to generate the data. This convention follows
+the PEP8 convention of python, as python does not give a way to protect
+methods.
 
 \subsection{Timestamp}
 
-\noteMathieu{TODO Simon}
-
+The Timestamp object has many features. We based our implementation on the
+\verb!datetime! and \verb!dateutil! Python packages. They provide base
+operations and functions on time and dates. The Timestamp class is a simple
+wrapper around these packages. The major modification is the overloading of the
+different operators. In order to provide a user-friendly interface, we
+overloaded the operators to allow comparison, addition, substraction with
+strings. For example, one can write \verb!t2 = t1 + "2h45m"!. We found a simple
+parser to use this kind of notations.
 
 \subsection{Data}
 
-\noteMathieu{TODO Mathieu / Simon}
-
+The Data object is a simple dictionnary. It must have three informations :
+\verb!timestamp!, \verb!sensor!, \verb!value!. Then, all additionnal field is
+added to the \verb!__dict__! attribute.
+This way, the sensors can put all kind of information in the Data object.
 
 \subsection{Simulation}
 
-\noteMathieu{TODO Mathieu / Simon}
+The Simulation works in three phases :
+\begin{itemize}
+    \item Setup : Sets all internal parameters, calls \verb!_setup()! on all
+sensors and displays, sets the start and stop time of the simulation
+    \item Run : A simple loop : while there is still data to get and we are
+before the stop time, pop the next Data.
+    \item Stop : When the simulation ends, close the displays.
+\end{itemize}
 
 \subsection{Sensors}
 
@@ -44,17 +65,6 @@ name is defined (to prevent from two sensors with the same name).
 
 Now we should look deeper into the different classes that will inherit from the
 Sensor class
-
-\subsubsection{The Importer abstract class}
-
-The importer class is also an abstract class that implements the function
-to read text from an input file. The user has to define a filename at the
-creation of the class. The real importation of the data (depending on the type
-of storage of the data) is done in inherited classes.
-
-\paragraph{The JsonImporter class}
-
-
 
 \subsubsection{The modelSensor abstract class}
 
@@ -120,14 +130,26 @@ A Wrapper around a sensor. Calls the sub-sensor, and scales the timestamp of
 the returned data. This way, it acts as if the sub-sensor runds at a different
 speed.
 
-
 \subsubsection{The Importer abstract class}
 
-The importer class is also an abstract class that implements the function to read text from an input file, and the functions to get the next data (\verb!_popNext! and \verb!_getNext!). The user have to define a filename at the creation of the class. The real importation of the data (depending on the type of storage of the data) is done in inherited classes, during the setup phase. During this phase, the inherited classes will have to store the data in the attribute \verb!data!, in a \verb!deque! \noteMathieu{Expliquer cela}, where the timestamps are sorted in increasing order. Then the methods \verb!_popNext! and \verb!_getNext! will do the interface with the simulation (by popping data from the \verb!deque!).
+The importer class is also an abstract class that implements the function
+to read text from an input file, and the functions to get the next data
+(\verb!_popNext! and \verb!_getNext!). The user have to define a filename
+at the creation of the class. The real importation of the data (depending
+on the type of storage of the data) is done in inherited classes, during the
+setup phase. During this phase, the inherited classes will have to store the
+data in the attribute \verb!data!, in a \verb!deque! \noteMathieu{Expliquer
+cela}, where the timestamps are sorted in increasing order. Then the methods
+\verb!_popNext! and \verb!_getNext! will do the interface with the simulation
+(by popping data from the \verb!deque!).
 
 \paragraph{The JsonImporter class}
 
-To import a JSON file, we need to know what will be the attributes of the main dictionnary. I use \url{https://github.com/SINTEF-9012/sensapp/tree/master/net.modelbased.sensapp.data.samples/CyclingData}[this format], as it is suggested in the subject of the project. We suppose that:
+To import a JSON file, we need to know what
+will be the attributes of the main dictionnary. I use
+\url{https://github.com/SINTEF-9012/sensapp/tree/master/net.modelbased.sensapp.data.samples/CyclingData}[this
+format], as it is suggested in the subject of the project. We suppose that:
+
 \begin{itemize}
 \item the main data is a dictionary
 \item there is a key \verb!"bn"! and the value is the name of the sensor
@@ -139,34 +161,60 @@ To import a JSON file, we need to know what will be the attributes of the main d
       \end{itemize}
 \end{itemize}
 
-This assumptions are done to be able to import the data that were suggested in the subject.
+This assumptions are done to be able to import the data that were suggested in
+the subject.
 
-This might be too restrictive, see section \ref{improvement_jsonimporter} for a proposition of improvement.
+This might be too restrictive, see section \ref{improvement_jsonimporter} for a
+proposition of improvement.
 
-The \verb!_setup! function will instanciate the \verb!data! attribute, that will be sent to the simulation. We use the \verb!json! python package to import the json file.
+The \verb!_setup! function will instanciate the \verb!data! attribute, that
+will be sent to the simulation. We use the \verb!json! python package to import
+the json file.
 
 \paragraph{The CsvImporter class}
 
-This class will do the same as the previous one, but for CSV files. We use the \verb!csv! python package to import the file. The assumptions for this format are the following:
+This class will do the same as the previous one, but for CSV files. We use the
+\verb!csv! python package to import the file. The assumptions for this format
+are the following:
 \begin{itemize}
 \item the first line contains the name of the sensors that are in the files
-\item the next lines contain as a first value the timestamp when the data was generated, and then the other data for each sensor (on the same column as the name of the sensor in the first line)
+\item the next lines contain as a first value the timestamp when the data was
+generated, and then the other data for each sensor (on the same column as the
+name of the sensor in the first line)
 \end{itemize}
 
-These conditions are less restrictive than for the JSON format, but they are still conditions and we can debate about how to remove them.
+These conditions are less restrictive than for the JSON format, but they are
+still conditions and we can debate about how to remove them.
 
-One tricky part is that the data in a CSV file is only plain text, (compared to JSON where we know when a data is an integer or a string). To find what is the type of the data, we try to cast it as an \verb!int!, if it fails we try as a \verb!float! if it fails it will remain a \verb!string!. The \verb!_setup! function will import the data, find the type of every element, associate every measure to its sensor, sort by timestamp and put this in the \verb!data! attribute, to be sent to the simulation.
-
-
+One tricky part is that the data in a CSV file is only plain text, (compared
+to JSON where we know when a data is an integer or a string). To find what
+is the type of the data, we try to cast it as an \verb!int!, if it fails
+we try as a \verb!float! if it fails it will remain a \verb!string!. The
+\verb!_setup! function will import the data, find the type of every element,
+associate every measure to its sensor, sort by timestamp and put this in the
+\verb!data! attribute, to be sent to the simulation.
 
 \subsubsection{The AggregatedSensor class}
 
-This class is one of the most important, as it will allow to group sensors. When defining sensors, the user might want to group them (for example all the sensors of one office), because we don't want to define by hand all the sensors of an office each time we want to define one. What the user can now do is to say : my school is composed of 4 floors, each floor is composed of 20 offices, each office have a temperature sensor, a light sensor, ...
+This class is one of the most important, as it will allow to group
+sensors. When defining sensors, the user might want to group them (for example
+all the sensors of one office), because we don't want to define by hand all
+the sensors of an office each time we want to define one. What the user can now
+do is to say : my school is composed of 4 floors, each floor is composed of 20
+offices, each office have a temperature sensor, a light sensor, ...
 
-The aggregated sensor will work as if it was a single sensor (only one method \verb!_popNext!), and it will choose among the different sensors that it contains what is the one that will generate a data the soonest (and will return this one). The only method used by the user is the method \verb!addSensors! that will add many sensors to the aggregated sensor.
+The aggregated sensor will work as if it was a single sensor (only one
+method \verb!_popNext!), and it will choose among the different sensors
+that it contains what is the one that will generate data the soonest
+(and will return this one). The only method used by the user is the method
+\verb!addSensors! that will add many sensors to the aggregated sensor.
 
-Also, this is this sensor that will be generated by operation on sensors. A multiplication of one sensor by an integer will return an aggregated sensor with the good number of occurences of the original sensor. By doing that, we need to be careful about the fact that we need to copy the sensor, and not give it as a reference (this is done automatically). Adding two sensors will also create an aggregated sensor containing the two sensors.
-
+Also, this is this sensor that will be generated by operation on sensors. A
+multiplication of one sensor by an integer will return an aggregated sensor
+with the good number of occurences of the original sensor. By doing that, we
+need to be careful about the fact that we need to copy the sensor, and not give
+it as a reference (this is done automatically). Adding two sensors will also
+create an aggregated sensor containing the two sensors.
 
 \subsection{Display}
 
@@ -187,7 +235,16 @@ after.
 
 \subsubsection{Display to an influxDB database}
 
-\noteMathieu{TODO Simon}
+In order to visualize data with Grafana, we must send data to an influxDB data
+base. Because this database is accessible with POST requests at a given url, we
+simply use the \verb!requests! package to send custom requests to an url.
+
+This way, during setup, we send a request to delete previous databases, create
+the new one. And when the simulation generates a Data, we send the adapted POST
+request to the server.
+
+If the user wants to plot this data in Grafana, simply plot influxDB data the
+regular way.
 
 \subsubsection{Display to a file in JSON format}
 
@@ -196,4 +253,17 @@ after.
 
 \subsection{Generator}
 
-\noteMathieu{TODO Simon}
+They are like sensors in construction. They gather objects and information, and
+when calling the \verb!build()! function, they output the sensor adapted to the
+given informations.
+
+We implemented two Generators, but it is easy to build new ones (see possible
+extensions section) :
+\begin{itemize}
+    \item \verb!Interpolator! : builds a polynomial sensor from a set of points.
+    \item \verb!MultipleSensor! : builds an Aggregated Sensor containing
+multiple copies of a sensor. We must be careful because Python sends references
+by default, so we had to overload all \verb!__deepcopy__! operations to make
+sure that \verb!sensor * 10! builds 10 different sensors, and not 10 references
+to the same object
+\end{itemize}
