@@ -2,7 +2,7 @@ from sensim import *
 import time
 
 # Define Chain
-m = MarkovChain(name = "zombieSensor")
+m = MarkovChain().named("zombieSensor")
 m.addNodes(0, 1, 2)
 m.setStartNode(0)
 #CHEAT
@@ -18,4 +18,4 @@ aggr = AggregatedSensor(sensors = [m, rich], speed = 0.5)
 # Define Display
 display = InfluxDBDisplay("http://localhost:8086/write?db=sec")
 
-simu = Simulation(TODO implement)
+simu = Simulation(display = display, sensors = [aggr])

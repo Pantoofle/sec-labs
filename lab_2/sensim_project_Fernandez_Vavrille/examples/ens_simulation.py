@@ -1,4 +1,3 @@
-from sensor import *
 from sensim import *
 from math import sin
 
