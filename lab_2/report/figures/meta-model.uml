@@ -2,6 +2,7 @@
 Sensor <|-- Importer
 Sensor <|-- ModelSensor
 Sensor <|-- Aggregator
+Sensor <|-- WrapperSensor
 
 ModelSensor <|-- MarkovChain
 ModelSensor <|-- FunctionSensor
@@ -17,8 +18,15 @@ Display <|-- JsonDisplay
 Importer <|-- JsonImporter
 Importer <|-- CsvImporter
 
-Timestamp : Timestamp add(Timestamp t)
-Timestamp : Timestamp sub(Timestamp t)
+WrapperSensor <|-- MaskedSensor
+WrapperSensor <|-- SpeedSensor
+
+
+Timestamp : add(Timestamp t)
+Timestamp : sub(Timestamp t)
+
+Data : timestamp
+Data : data
 
 Simulation : run()
 Simulation : Sensor input

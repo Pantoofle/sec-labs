@@ -1,2 +1,2 @@
-model : model.uml
+%.png : %.uml
 	plantuml $<
