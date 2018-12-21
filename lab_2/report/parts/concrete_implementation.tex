@@ -82,29 +82,13 @@ data every second, or minute).
 One model that is implemented is the one of Markov Chains. The state returned
 by the sensor is following the low of a Markov Chain. To define a Markov
 Chain, the user need to define the nodes, the transitions and the starting
-node. Adding nodes and setting the starting node is easy, the nodes are the
-values that will be returned by the sensor: for example, if the nodes are
-integers (modelling the wealth of someone) it will be possible to show it
-on a graph; the nodes can also be strings (modelling the weather: ``sunny'',
-``rainy'', ``snowy'') and then, it will be harder to show the data on a graph.
-
+node. The nodes can be named with integers or strings or any type, and it is these names that will be returned as the value of the sensor.
 Setting the transition is harder: the implementation choosed to give a method
 \verb!addTransition(node1, node2, proba)!. The user has to define all the
 values of the transitions (the initial probability is 0).
 
-The Markov Chains come with a big issue that are the fact that we use
-probabilities. The next state of the MC is a random variable, that need to
-follow a distribution (where the sum of the probabilities is equal to 1). If
-the user doesn't specify well the probability of the transitions, this can lead
-to bugs. The solution that was done was to enforce that the last node have
-probability equal to one minus the sum of the other probabilities. This way,
-even if the user enters an illegal probability distribution, the simulation
-will work.
-This was also done because as we are working with probabilities, we work
-with floating points. The issue with floating points is that some errors of
-roundings can occur, even if the user entered a legitimate distribution (for
-example [0.01, 0.01, ..., 0.01] that are not dyadic numbers). This is very
-unlikely to happen, but it is possible
+We are working with probabilities, and then the sum of the probabilities of transition should sum up to one.
+We enforce this fact by not looking at the last transition for each node, because we know that it is one minus the sum of the other probabilities. This way, we prevent the user from defining bad transitions, and locking the simulation.
 
 \paragraph{FunctionSensor class}
 
