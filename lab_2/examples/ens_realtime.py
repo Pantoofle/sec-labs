@@ -1,6 +1,8 @@
-from sensor import FunctionSensor, MarkovChain
-from display import JsonDisplay, InfluxDBDisplay
-from simulation import Simulation
+from ...sensim import *
+
+#from sensor import FunctionSensor, MarkovChain
+#from display import JsonDisplay, InfluxDBDisplay
+#from simulation import Simulation
 
 from math import sin
 
