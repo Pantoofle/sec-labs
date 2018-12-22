@@ -40,7 +40,8 @@ There are some pre-defined $\texttt{ModelSensor()}$.
     \item $\texttt{FunctionSensor(name, step, function)}$ : $function$ is a
 python function that will be called on each time step. This allows to use Python
 functions, and external modules (for example, call the $np.sin$ function from
-the numpy module).
+the numpy module). Be careful : THE FUNCTION MUST TAKE A TIMESTAMP IN INPUT.
+
     \item $\texttt{PolynomialSensor(name, step, polynomial, coefs, points)}$ : a
 special case of $\texttt{FunctionSensor}$. It implements a polynomial function.
 There are three ways to define a polynomial sensor :
