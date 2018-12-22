@@ -21,7 +21,9 @@ class PolynomialSensor(FunctionSensor):
         if coefs is not None:
             polynomial = np.poly1d(coefs)
 
-        FunctionSensor.__init__(self, name=name, step=step, function=polynomial)
+        FunctionSensor.__init__(self, name=name,
+                                step=step,
+                                function=lambda t: float(polynomial(t.second)))
 
     def fromPolynomial(self, p):
         return PolynomialSensor(name=self.name, step=self.step, polynomial=p)
@@ -31,10 +33,3 @@ class PolynomialSensor(FunctionSensor):
 
     def fromPoints(self, points):
         return PolynomialSensor(name=self.name, step=self.step, points=points)
-
-    def setPolynomial(self, p):
-        self.setFunction(p)
-
-    def setCoefficients(self, coefs):
-        p = np.poly1d(coefs)
-        self.setFunction(p)

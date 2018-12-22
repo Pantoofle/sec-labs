@@ -6,6 +6,6 @@ s1 = PolynomialSensor(name="poly_fun", polynomial = np.poly1d([2, 1, 0]))
 
 display = JsonDisplay("polynomial_output.json")
 
-simu = Simulation(display = display, sensors = [s, s1])
+simu = Simulation(display = display, sensors = [s, s1], stop="15m")
 
 simu.run()

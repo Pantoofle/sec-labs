@@ -73,7 +73,7 @@ class Simulation():
                 sleep_time = (current_data.timestamp.time - datetime.now()).total_seconds()
                 if sleep_time > 0:
                     sleep(sleep_time)
-            print("Simulation ", self.sensors.name, " time : ", self.sensors.time)
+            print("Simulation time : ", self.sensors.time)
             current_data.scaleTime(ref=self.start, factor=1/self.speed)
             self.display.addPlot(current_data)
             current_data = self.sensors._popNext()

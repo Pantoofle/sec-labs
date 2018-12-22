@@ -47,10 +47,9 @@ class Timestamp():
         elif isinstance(other, str):
             return Timestamp(self.time + parse_time_delta(other))
         else:
-            raise RuntimeError("Cant add Timestamp with ", type(other))
+            return Timestamp(self.time + timedelta(int(other)))
 
-    def __radd__(self, other):
-        self.__add__(other)
+    __radd__ = __add__
 
     def __sub__(self, other):
         if isinstance(other, Timestamp):
@@ -62,7 +61,19 @@ class Timestamp():
         elif isinstance(other, int):
             return self.time - datetime.fromtimestamp(other)
         else:
-            raise RuntimeError("Cant sub Timestamp with ", type(other))
+            return Timestamp(self.time - timedelta(int(other)))
+
+    def __mul__(self, other):
+        if isinstance(other, float):
+            return Timestamp(self.time.timestamp()*other)
+        elif isinstance(other, Timestamp):
+            return Timestamp(self.time.timestamp()*other.time.timestamp())
+        elif isinstance(other, int):
+            return Timestamp(self.time.timestamp()*other)
+        else:
+            return Timestamp(self.time.timestamp()*int(other))
+
+    __rmul__ = __mul__
 
     def __str__(self):
         return str(self.time)

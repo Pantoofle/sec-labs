@@ -1,5 +1,5 @@
 install:
-	pip3 install --user --force-reinstall .
+	python setup.py install
 
 uninstall:
-	pip3 uninstall -y sensim
+	python setup.py uninstall
